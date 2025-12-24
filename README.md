@@ -98,6 +98,12 @@ Work with an isolated ledger for a specific project.
 datum --chain secret_project.json --coin-name "SecretCoin" balance --address "Agent_007"
 ```
 
+**Create Custom Chain**
+Initialize a new blockchain with a specific Genesis message.
+```bash
+datum --chain project_x.json --genesis-msg "Project X Initialization - 2025" info
+```
+
 ## Interactive Demos
 
 Datum includes several built-in demos to showcase its capabilities.
