@@ -240,10 +240,11 @@ def main():
     )
 
     # Global Arguments (Must come before subcommands)
-    parser.add_argument('--chain', type=str, default=None, help='Blockchain file to use (overrides config)')
-    parser.add_argument('--coin-name', type=str, default='Datum', help='Name of the currency unit (display only)')
+    parser.add_argument('-c', '--chain', type=str, default=None, help='Blockchain file to use (overrides config)')
+    parser.add_argument('-n', '--coin-name', type=str, default='Datum', help='Name of the currency unit (display only)')
     parser.add_argument(
-        '--genesis-msg', type=str, default=None, help='Custom message for Genesis Block (only on creation)'
+        '-g', '--gen', '--genesis-msg', dest='genesis_msg', type=str, default=None,
+        help='Custom message for Genesis Block (only on creation)'
     )
     parser.add_argument('-h', '--help', action='help', help='Show this help message and exit')
 
