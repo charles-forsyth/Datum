@@ -101,19 +101,29 @@ def run_simulation_loop(bc, admin, users, log_func, dashboard_func):
                 if bc.calculate_balance(user) < cost:
                     # Fund them from Admin if broke
                     log_func(f"[yellow]Funding {user} from Admin...[/yellow]")
-                    bc.add_transaction(Transaction(type="currency", sender=admin, recipient=user, amount=100.0))
+                    bc.add_transaction(Transaction(
+                        type="currency",
+                        sender=admin,
+                        recipient=user,
+                        amount=100.0
+                    ))
                     bc.save_chain()
                 else:
                     # Run Job
-                    log_func(f"[cyan]{user} submitting job (Cost: {cost})...")
-                    bc.add_transaction(Transaction(type="currency", sender=user, recipient=admin, amount=float(cost)))
+                    log_func(f"[cyan]{user} submitting job (Cost: {cost})...[/cyan]")
+                    bc.add_transaction(Transaction(
+                        type="currency",
+                        sender=user,
+                        recipient=admin,
+                        amount=float(cost)
+                    ))
                     # Notarize result
-                    bc.add_transaction(
+                    bc.add_transaction(Transaction(
                         type="notarization",
                         owner=user,
-                        filename=f"job_{step}.out",
+                        filename="job_{step}.out",
                         file_hash="hash_placeholder"
-                    )
+                    ))
                     bc.save_chain()
 
             if step % 5 == 0:
