@@ -1,7 +1,0 @@
---- HPC JOB REPORT ---
-Job ID: job_1763932046_1299
-User: Bob
-Script: grep_logs.sh
-Resources: 2C / 0G / 4M
-Result: SUCCESS
-Scientific Data: 29202278

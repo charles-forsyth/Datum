@@ -1,7 +1,0 @@
---- HPC JOB REPORT ---
-Job ID: job_1763931951_2912
-User: Alice
-Script: gpu_accelerated_run.sh
-Resources: 1C / 1G / 4M
-Result: SUCCESS
-Scientific Data: 12233526

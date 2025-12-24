@@ -1,7 +1,0 @@
---- HPC JOB REPORT ---
-Job ID: job_1763932008_6977
-User: Trent
-Script: grep_logs.sh
-Resources: 2C / 0G / 4M
-Result: SUCCESS
-Scientific Data: 63283457

@@ -17,12 +17,12 @@ if sys.version_info < MIN_PYTHON_VERSION:
         % MIN_PYTHON_VERSION
     )
 
-import hashlib
-import time
-import pickle
 import argparse
+import hashlib
 import os
+import pickle
 import subprocess
+import time
 
 # --- Helper Functions ---
 
@@ -42,7 +42,7 @@ def get_git_provenance():
             capture_output=True, text=True, check=True
         )
         commit_hash = hash_result.stdout.strip()
-        
+
         return {'repo_url': url, 'commit_hash': commit_hash}
     except (subprocess.CalledProcessError, FileNotFoundError):
         # This will happen if not in a git repo or git is not installed.
@@ -117,13 +117,13 @@ class Blockchain:
                 print("No pending transactions to mine.")
                 return False
 
-        print(f"\n⛏️  Starting the miner...")
-        
+        print("\n⛏️  Starting the miner...")
+
         # Determine the reward amount
         reward_amount = custom_reward if custom_reward is not None else self.mining_reward
 
         transactions_for_new_block = self.pending_transactions[:]
-        
+
         # Only add a reward transaction if the amount is greater than 0
         if reward_amount > 0:
             reward_transaction = {
@@ -166,7 +166,7 @@ class Blockchain:
         for block in self.chain:
             if not isinstance(block.transactions, list):
                 # The genesis block now has a dict, so we handle that
-                if isinstance(block.transactions, dict): 
+                if isinstance(block.transactions, dict):
                     continue
                 continue
             for tx in block.transactions:
@@ -186,12 +186,12 @@ class Blockchain:
             print(f"Index: {block.index}")
             print(f"Timestamp: {time.ctime(block.timestamp)}")
             print("Transactions:")
-            
+
             # Handle Genesis block with provenance
             if isinstance(block.transactions, dict) and block.transactions.get('type') == 'genesis':
                 prov = block.transactions.get('provenance', {})
                 print(f"  - {block.transactions.get('message')}")
-                print(f"    - Provenance:")
+                print("    - Provenance:")
                 print(f"      - Repo URL: {prov.get('repo_url', 'N/A')}")
                 print(f"      - Commit Hash: {prov.get('commit_hash', 'N/A')}")
 
@@ -209,7 +209,7 @@ class Blockchain:
                         print(f"  - {tx}")
             else:
                 print(f"  - {block.transactions}")
-            
+
             print(f"Previous Hash: {block.previous_hash}")
             print(f"Hash: {block.hash}")
             print(f"Nonce: {block.nonce}")
@@ -252,10 +252,10 @@ def run_self_verify():
     """Checks the integrity of the script itself against a trusted hash."""
     print("--- Verifying Script Integrity ---")
     trusted_hash_file = 'trusted_hash.txt'
-    
+
     # 1. Read the trusted hash from the file.
     try:
-        with open(trusted_hash_file, 'r') as f:
+        with open(trusted_hash_file) as f:
             # The file format from sha256sum is "HASH  FILENAME", so we split and take the first part.
             trusted_hash = f.read().split()[0]
     except FileNotFoundError:
@@ -325,7 +325,7 @@ This tool demonstrates blockchain concepts through three distinct modes of opera
    $ ./blockchain.py --chain ivxx_chain.dat verify "my_notes.txt"
 '''
     )
-    
+
     # Global arguments that apply to the CLI Tool Mode
     parser.add_argument('--chain', type=str, default='geminicoin.dat',
                         help='The file name for the blockchain. Allows you to maintain multiple, separate chains. Defaults to geminicoin.dat.')
@@ -342,19 +342,19 @@ This tool demonstrates blockchain concepts through three distinct modes of opera
     parser_notarize = subparsers.add_parser('notarize', help='(CLI Tool) Add a file to the mempool for notarization.')
     parser_notarize.add_argument('--owner', type=str, required=True, help='The name of the file owner.')
     parser_notarize.add_argument('--file', type=str, required=True, dest='filepath', help='The path to the file to notarize.')
-    
+
     parser_mine = subparsers.add_parser('mine', help='(CLI Tool) Mine a new block with all pending transactions.')
-    parser_mine.add_argument('--miner', type=str, dest='address', default=os.environ.get('USER', 'local_miner'), 
+    parser_mine.add_argument('--miner', type=str, dest='address', default=os.environ.get('USER', 'local_miner'),
                              help='The address to receive the mining reward (defaults to your system username).')
     parser_mine.add_argument('--reward', type=int, default=None, help='Override the default mining reward (use 0 to disable inflation).')
-    
+
     parser_verify = subparsers.add_parser('verify', help='(CLI Tool) Verify a file by checking its hash against the blockchain.')
     parser_verify.add_argument('filepath', type=str, help='The path to the file to verify.')
 
     parser_stats = subparsers.add_parser('stats', help='(CLI Tool) Print blockchain statistics in JSON format.')
-    
+
     parser_print = subparsers.add_parser('print', help='(CLI Tool) Print the entire blockchain.')
-    
+
     parser_balance = subparsers.add_parser('balance', help='(CLI Tool) Calculate and show the balance of an address.')
     parser_balance.add_argument('--address', type=str, required=True, help='The address to check the balance for.')
 
@@ -373,11 +373,11 @@ This tool demonstrates blockchain concepts through three distinct modes of opera
     if args.command == 'simulate':
         run_simulation_demo()
         return
-    
+
     if args.command == 'self-verify':
         run_self_verify()
         return
-    
+
     # For CLI tool commands, load the specified chain
     gemini_coin = load_blockchain(args.chain, args.coin_name)
 
@@ -398,7 +398,7 @@ This tool demonstrates blockchain concepts through three distinct modes of opera
             if block:
                 print(f"\n--- Verification Successful!---\n✅ File hash found on the blockchain in Block #{block.index}.")
             else:
-                print(f"\n--- Verification Failed---\n❌ File hash not found in the blockchain.")
+                print("\n--- Verification Failed---\n❌ File hash not found in the blockchain.")
     elif args.command == 'stats':
         tx_count = sum(len(b.transactions) if isinstance(b.transactions, list) else 1 for b in gemini_coin.chain)
         print(f'{{"height": {len(gemini_coin.chain)}, "tx_count": {tx_count}, "last_hash": "{gemini_coin.chain[-1].hash}"}}')

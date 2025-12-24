@@ -1,7 +1,0 @@
---- HPC JOB REPORT ---
-Job ID: job_1763931913_7448
-User: Charlie
-Script: simulate_physics.bin
-Resources: 4C / 0G / 4M
-Result: SUCCESS
-Scientific Data: 22440840

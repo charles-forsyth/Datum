@@ -1,7 +1,0 @@
---- HPC JOB REPORT ---
-Job ID: job_1763931720_2068
-User: Eve
-Script: train_model.sh
-Resources: 8C / 0G / 4M
-Result: SUCCESS
-Scientific Data: 38310694

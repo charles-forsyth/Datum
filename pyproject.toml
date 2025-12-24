@@ -1,0 +1,43 @@
+[project]
+name = "datum"
+version = "0.1.0"
+description = "A professional blockchain and data integrity tool."
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "pydantic>=2.0",
+    "pydantic-settings",
+    "python-dotenv",
+    "rich",
+    "typer",
+]
+
+[project.scripts]
+datum = "datum.cli:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+dev-dependencies = [
+    "pytest",
+    "ruff",
+    "mypy",
+    "types-setuptools",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py39"
+select = ["E", "F", "I", "W", "C90", "B", "UP"]
+ignore = ["B008"]
+exclude = ["_archive", "hpc_sim"]
+
+[tool.ruff.isort]
+known-first-party = ["datum"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v --strict-markers"

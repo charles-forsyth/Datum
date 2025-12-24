@@ -1,7 +1,0 @@
---- HPC JOB REPORT ---
-Job ID: job_1763931866_7873
-User: Alice
-Script: grep_logs.sh
-Resources: 8C / 0G / 4M
-Result: SUCCESS
-Scientific Data: 45471329

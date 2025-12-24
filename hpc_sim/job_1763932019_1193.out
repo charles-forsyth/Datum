@@ -1,7 +1,0 @@
---- HPC JOB REPORT ---
-Job ID: job_1763932019_1193
-User: Bob
-Script: simulate_physics.bin
-Resources: 3C / 0G / 4M
-Result: SUCCESS
-Scientific Data: 14829113

@@ -1,7 +1,0 @@
---- HPC JOB REPORT ---
-Job ID: job_1763930745_6522
-User: Student_Broke
-Script: big_model.py
-Resources: 4C / 0G / 4M
-Result: SUCCESS
-Scientific Data: 42349941

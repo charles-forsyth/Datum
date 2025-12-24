@@ -1,12 +1,10 @@
 import http.server
-import socketserver
 import json
-import subprocess
 import os
-import time
 import re
-import threading
 import signal
+import socketserver
+import subprocess
 import sys
 
 # Configuration
@@ -27,7 +25,7 @@ class BlockchainHandler(http.server.SimpleHTTPRequestHandler):
             self.send_header('Content-type', 'application/json')
             self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
-            
+
             # 1. Get Blockchain Stats
             try:
                 cmd = [BLOCKCHAIN_SCRIPT, "--chain", CHAIN_FILE, "--coin-name", COIN_NAME, "stats"]
@@ -44,20 +42,20 @@ class BlockchainHandler(http.server.SimpleHTTPRequestHandler):
             recent_logs = []
 
             if os.path.exists(LOG_FILE):
-                with open(LOG_FILE, 'r') as f:
+                with open(LOG_FILE) as f:
                     lines = f.readlines()
                     # Get last 20 lines for log view
                     recent_logs = [l.strip() for l in lines[-20:]]
-                    
+
                     for line in lines:
                         if "Job completed" in line:
                             jobs_completed += 1
-                        
+
                         # Extract Cost: "💰 TOTAL COST:    112 HPCCredit"
                         cost_match = re.search(r"TOTAL COST:\s+(\d+)", line)
                         if cost_match:
                             credits_spent += int(cost_match.group(1))
-                        
+
                         # Extract User: "User:      Bob"
                         user_match = re.search(r"User:\s+(\w+)", line)
                         if user_match:
@@ -73,7 +71,7 @@ class BlockchainHandler(http.server.SimpleHTTPRequestHandler):
                 },
                 "logs": recent_logs
             }
-            
+
             self.wfile.write(json.dumps(data).encode())
         else:
             # Serve static files (index.html)
@@ -85,7 +83,7 @@ def run_simulation():
     # Clear log
     with open(LOG_FILE, 'w') as f:
         f.write("--- Simulation Started ---\n")
-    
+
     # Start script
     sim_process = subprocess.Popen([SIM_SCRIPT, "auto"], stdout=open(LOG_FILE, 'a'), stderr=subprocess.STDOUT)
 
@@ -98,15 +96,15 @@ def cleanup(signum, frame):
 if __name__ == "__main__":
     # Change dir to script location
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    
+
     # Trap Ctrl+C
     signal.signal(signal.SIGINT, cleanup)
     signal.signal(signal.SIGTERM, cleanup)
-    
+
     run_simulation()
-    
+
     print(f"🌍 Dashboard running at http://localhost:{PORT}")
     print("Press Ctrl+C to stop.")
-    
+
     with socketserver.TCPServer(("", PORT), BlockchainHandler) as httpd:
         httpd.serve_forever()

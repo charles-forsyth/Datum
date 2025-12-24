@@ -1,7 +1,0 @@
---- HPC JOB REPORT ---
-Job ID: job_1763931165_9164
-User: Mallory
-Script: grep_logs.sh
-Resources: 5C / 0G / 4M
-Result: SUCCESS
-Scientific Data: 30192799

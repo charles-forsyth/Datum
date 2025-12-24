@@ -1,7 +1,0 @@
---- HPC JOB REPORT ---
-Job ID: job_1763931992_6036
-User: Eve
-Script: simulate_physics.bin
-Resources: 7C / 0G / 4M
-Result: SUCCESS
-Scientific Data: 24604895

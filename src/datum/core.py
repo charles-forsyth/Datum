@@ -1,0 +1,136 @@
+import json
+import os
+import time
+from typing import Optional
+
+from datum.config import settings
+from datum.schemas import Block, Provenance, Transaction
+from datum.utils import get_git_provenance
+
+
+class Blockchain:
+    def __init__(self, chain_file: Optional[str] = None):
+        self.chain_file = chain_file or settings.chain_file
+        self.pending_transactions: list[Transaction] = []
+        self.chain: list[Block] = []
+        self.difficulty = settings.difficulty
+        self.mining_reward = settings.mining_reward
+
+        if os.path.exists(self.chain_file):
+            self.load_chain()
+        else:
+            self.create_genesis_block()
+
+    def create_genesis_block(self):
+        """Creates the first block in the chain."""
+        prov_data = get_git_provenance()
+        provenance = Provenance(
+            repo_url=prov_data.get('repo_url', 'N/A'),
+            commit_hash=prov_data.get('commit_hash', 'N/A')
+        )
+
+        genesis_tx = Transaction(
+            type="genesis",
+            message="Genesis Block - Datum Project",
+            provenance=provenance
+        )
+
+        genesis_block = Block(
+            index=0,
+            timestamp=time.time(),
+            transactions=[genesis_tx],
+            previous_hash="0",
+            hash="" # Will be calculated
+        )
+        genesis_block.hash = genesis_block.calculate_hash()
+        self.chain.append(genesis_block)
+        self.save_chain()
+
+    def get_latest_block(self) -> Block:
+        return self.chain[-1]
+
+    def add_transaction(self, transaction: Transaction):
+        self.pending_transactions.append(transaction)
+
+    def mine_pending_transactions(self, miner_address: str) -> bool:
+        if not self.pending_transactions:
+            return False
+
+        reward_tx = Transaction(
+            type="reward",
+            recipient=miner_address,
+            amount=self.mining_reward,
+            timestamp=time.time()
+        )
+
+        # Create new block with pending txs + reward
+        transactions_to_mine = self.pending_transactions[:] + [reward_tx]
+
+        last_block = self.get_latest_block()
+        new_block = Block(
+            index=last_block.index + 1,
+            timestamp=time.time(),
+            transactions=transactions_to_mine,
+            previous_hash=last_block.hash,
+            hash=""
+        )
+
+        self.mine_block(new_block)
+        self.chain.append(new_block)
+
+        # Reset pending transactions and save
+        self.pending_transactions = []
+        self.save_chain()
+        return True
+
+    def mine_block(self, block: Block):
+        """Performs Proof-of-Work"""
+        prefix = '0' * self.difficulty
+        while not block.hash.startswith(prefix):
+            block.nonce += 1
+            block.hash = block.calculate_hash()
+
+    def calculate_balance(self, address: str) -> float:
+        balance = 0.0
+        for block in self.chain:
+            for tx in block.transactions:
+                if tx.recipient == address:
+                    balance += tx.amount
+                if tx.sender == address:
+                    balance -= tx.amount
+        return balance
+
+    def find_transaction_by_file_hash(self, file_hash: str) -> Optional[tuple[Block, Transaction]]:
+        for block in self.chain:
+            for tx in block.transactions:
+                if tx.type == 'notarization' and tx.file_hash == file_hash:
+                    return block, tx
+        return None
+
+    def save_chain(self):
+        """Saves the blockchain and pending transactions to a JSON file."""
+        data = {
+            "chain": [block.model_dump() for block in self.chain],
+            "pending_transactions": [tx.model_dump() for tx in self.pending_transactions]
+        }
+        with open(self.chain_file, 'w') as f:
+            json.dump(data, f, indent=4)
+
+    def load_chain(self):
+        """Loads the blockchain from a JSON file."""
+        try:
+            with open(self.chain_file) as f:
+                data = json.load(f)
+                # Handle legacy or simple list format if migration needed (optional, but good for safety)
+                if isinstance(data, list):
+                    # Old format or simple chain list
+                    self.chain = [Block.model_validate(b) for b in data]
+                    self.pending_transactions = []
+                elif isinstance(data, dict):
+                    self.chain = [Block.model_validate(b) for b in data.get("chain", [])]
+                    self.pending_transactions = [
+                        Transaction.model_validate(t) for t in data.get("pending_transactions", [])
+                    ]
+        except (json.JSONDecodeError, FileNotFoundError):
+            print(f"Error loading chain from {self.chain_file}. Starting fresh.")
+            self.create_genesis_block()

@@ -1,7 +1,0 @@
---- HPC JOB REPORT ---
-Job ID: job_1763931886_4133
-User: Trent
-Script: train_model.sh
-Resources: 2C / 0G / 4M
-Result: SUCCESS
-Scientific Data: 36726907

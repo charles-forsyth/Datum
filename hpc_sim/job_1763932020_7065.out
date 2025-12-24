@@ -1,7 +1,0 @@
---- HPC JOB REPORT ---
-Job ID: job_1763932020_7065
-User: Eve
-Script: grep_logs.sh
-Resources: 8C / 0G / 4M
-Result: SUCCESS
-Scientific Data: 48203393
