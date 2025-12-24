@@ -18,10 +18,10 @@ from datum.utils import hash_file
 # Initialize Rich Console
 console = Console()
 
-def get_blockchain(chain_file=None) -> Blockchain:
+def get_blockchain(chain_file=None, genesis_msg=None) -> Blockchain:
     """Load blockchain, preferring CLI arg over config."""
     path = chain_file or settings.chain_file
-    return Blockchain(chain_file=path)
+    return Blockchain(chain_file=path, genesis_message=genesis_msg)
 
 def cmd_info(args):
     """Display information about the current configuration."""
@@ -53,7 +53,7 @@ def cmd_notarize(args):
         console.print("[red]Error calculating file hash.[/red]")
         sys.exit(1)
 
-    bc = get_blockchain(args.chain)
+    bc = get_blockchain(args.chain, args.genesis_msg)
     tx = Transaction(
         type="notarization",
         owner=args.owner,
@@ -70,7 +70,7 @@ def cmd_notarize(args):
 
 def cmd_mine(args):
     """Mine a block."""
-    bc = get_blockchain(args.chain)
+    bc = get_blockchain(args.chain, args.genesis_msg)
     miner = args.miner or settings.miner_address
 
     if not bc.pending_transactions:
@@ -91,7 +91,7 @@ Transactions: {len(last_block.transactions)}""", title="Mining Success", border_
 
 def cmd_balance(args):
     """Check balance."""
-    bc = get_blockchain(args.chain)
+    bc = get_blockchain(args.chain, args.genesis_msg)
     bal = bc.calculate_balance(args.address)
     console.print(Panel(
         f"Address: [bold]{args.address}[/bold]\nBalance: [bold green]{bal} {args.coin_name}[/bold green]",
@@ -100,7 +100,7 @@ def cmd_balance(args):
 
 def cmd_transfer(args):
     """Transfer currency between addresses."""
-    bc = get_blockchain(args.chain)
+    bc = get_blockchain(args.chain, args.genesis_msg)
     sender_bal = bc.calculate_balance(args.sender)
 
     if sender_bal < args.amount:
@@ -129,7 +129,7 @@ Amount: {args.amount} {args.coin_name}""", title="Transfer Queued", border_style
 
 def cmd_show(args):
     """Show the blockchain."""
-    bc = get_blockchain(args.chain)
+    bc = get_blockchain(args.chain, args.genesis_msg)
     table = Table(title=f"Datum Blockchain (Last {args.n} Blocks)")
     table.add_column("Index", style="cyan", justify="right")
     table.add_column("Timestamp", style="magenta")
@@ -161,7 +161,7 @@ def cmd_verify(args):
         sys.exit(1)
 
     file_hash = hash_file(str(file_path))
-    bc = get_blockchain(args.chain)
+    bc = get_blockchain(args.chain, args.genesis_msg)
 
     result = bc.find_transaction_by_file_hash(file_hash)
     if result:
@@ -198,12 +198,7 @@ class RichHelpFormatter(argparse.RawTextHelpFormatter):
         return ", ".join(action.option_strings)
 
 def main():
-    parser = argparse.ArgumentParser(
-        prog="datum",
-        description="Datum: Professional Blockchain & Data Integrity Tool",
-        formatter_class=RichHelpFormatter,
-        add_help=False, # We handle help manually for better styling
-        epilog='''
+    help_text = """
 --------------------------------------------------------------------------------
 🔎 EXAMPLES & WORKFLOWS
 --------------------------------------------------------------------------------
@@ -235,12 +230,21 @@ def main():
    $ datum demo bazaar
 
 --------------------------------------------------------------------------------
-'''
+"""
+    parser = argparse.ArgumentParser(
+        prog="datum",
+        description="Datum: Professional Blockchain & Data Integrity Tool",
+        formatter_class=RichHelpFormatter,
+        add_help=False, # We handle help manually for better styling
+        epilog=help_text
     )
 
     # Global Arguments (Must come before subcommands)
     parser.add_argument('--chain', type=str, default=None, help='Blockchain file to use (overrides config)')
     parser.add_argument('--coin-name', type=str, default='Datum', help='Name of the currency unit (display only)')
+    parser.add_argument(
+        '--genesis-msg', type=str, default=None, help='Custom message for Genesis Block (only on creation)'
+    )
     parser.add_argument('-h', '--help', action='help', help='Show this help message and exit')
 
     subparsers = parser.add_subparsers(dest='command', help='Available commands', metavar='COMMAND')

@@ -9,8 +9,9 @@ from datum.utils import get_git_provenance
 
 
 class Blockchain:
-    def __init__(self, chain_file: Optional[str] = None):
+    def __init__(self, chain_file: Optional[str] = None, genesis_message: Optional[str] = None):
         self.chain_file = chain_file or settings.chain_file
+        self.genesis_message = genesis_message or settings.genesis_message
         self.pending_transactions: list[Transaction] = []
         self.chain: list[Block] = []
         self.difficulty = settings.difficulty
@@ -34,7 +35,7 @@ class Blockchain:
         # 1. The Genesis Metadata Transaction
         genesis_tx = Transaction(
             type="genesis",
-            message=settings.genesis_message,
+            message=self.genesis_message,
             provenance=provenance
         )
         transactions.append(genesis_tx)

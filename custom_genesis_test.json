@@ -1,0 +1,29 @@
+{
+    "chain": [
+        {
+            "index": 0,
+            "timestamp": 1766615241.6959667,
+            "transactions": [
+                {
+                    "type": "genesis",
+                    "sender": null,
+                    "recipient": null,
+                    "amount": 0.0,
+                    "timestamp": 1766615241.695959,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": "A New Beginning",
+                    "provenance": {
+                        "repo_url": "git@github.com:charles-forsyth/Datum.git",
+                        "commit_hash": "d5fae946856dbdc560ee7fbca79f5fbbe2f827d3"
+                    }
+                }
+            ],
+            "previous_hash": "0",
+            "nonce": 0,
+            "hash": "ae523a34f75a240b7cc3ef48eb4c71d521f14868a8d063748ba6fb3842332acc"
+        }
+    ],
+    "pending_transactions": []
+}
