@@ -213,39 +213,8 @@ class RichHelpFormatter(argparse.RawTextHelpFormatter):
         return ", ".join(action.option_strings)
 
 def main():
-    help_text = """
---------------------------------------------------------------------------------
-🔎 EXAMPLES & WORKFLOWS
---------------------------------------------------------------------------------
+    help_text = "Detailed help available online or via README."
 
-1. Start by checking the system info:
-   $ datum info
-
-2. Notarize a critical document (Proof of Existence):
-   $ datum notarize --owner "Dr. Vance" --file ./research_data.pdf
-   > This adds the file's hash to the "mempool" (pending transactions).
-
-3. Confirm the transaction by mining a block:
-   $ datum mine --miner "Lab_Workstation_1"
-   > This performs the Proof-of-Work and permanently saves the transaction.
-
-4. Verify the document later (Integrity Check):
-   $ datum verify --file ./research_data.pdf
-   > Datum will calculate the hash and search the ledger for a match.
-
-5. Check your Mining Rewards:
-   $ datum balance --address "Lab_Workstation_1"
-
-6. Transfer funds (Pay for Compute):
-   $ datum transfer --from "Lab_Workstation_1" --to "HPC_Scheduler" --amount 50
-
-7. Run Demos:
-   $ datum demo hpc
-   $ datum demo spy
-   $ datum demo bazaar
-
---------------------------------------------------------------------------------
-"""
     # Parent parser for SUBCOMMANDS (Standard flags)
     # 'add_help=False' prevents conflict with main parser's -h/--help
     parent_parser = argparse.ArgumentParser(add_help=False)
