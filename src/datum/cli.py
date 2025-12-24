@@ -23,8 +23,17 @@ def get_blockchain(chain_file=None, genesis_msg=None) -> Blockchain:
     path = chain_file or settings.chain_file
     return Blockchain(chain_file=path, genesis_message=genesis_msg)
 
+def resolve_args(args):
+    """Resolves conflicts between global and subcommand args."""
+    # Prioritize subcommand arg, fall back to global arg (main_*)
+    args.chain = args.chain or getattr(args, 'main_chain', None)
+    args.coin_name = args.coin_name or getattr(args, 'main_coin_name', None) or 'Datum'
+    args.genesis_msg = args.genesis_msg or getattr(args, 'main_genesis_msg', None)
+    return args
+
 def cmd_info(args):
     """Display information about the current configuration."""
+    args = resolve_args(args)
     table = Table(title="Datum Configuration", box=None)
     table.add_column("Setting", style="cyan")
     table.add_column("Value", style="magenta")
@@ -43,6 +52,7 @@ def cmd_info(args):
 
 def cmd_notarize(args):
     """Notarize a file."""
+    args = resolve_args(args)
     file_path = Path(args.file)
     if not file_path.exists():
         console.print(f"[red]Error: File {file_path} not found.[/red]")
@@ -70,6 +80,7 @@ def cmd_notarize(args):
 
 def cmd_mine(args):
     """Mine a block."""
+    args = resolve_args(args)
     bc = get_blockchain(args.chain, args.genesis_msg)
     miner = args.miner or settings.miner_address
 
@@ -91,6 +102,7 @@ Transactions: {len(last_block.transactions)}""", title="Mining Success", border_
 
 def cmd_balance(args):
     """Check balance."""
+    args = resolve_args(args)
     bc = get_blockchain(args.chain, args.genesis_msg)
     bal = bc.calculate_balance(args.address)
     console.print(Panel(
@@ -100,6 +112,7 @@ def cmd_balance(args):
 
 def cmd_transfer(args):
     """Transfer currency between addresses."""
+    args = resolve_args(args)
     bc = get_blockchain(args.chain, args.genesis_msg)
     sender_bal = bc.calculate_balance(args.sender)
 
@@ -129,6 +142,7 @@ Amount: {args.amount} {args.coin_name}""", title="Transfer Queued", border_style
 
 def cmd_show(args):
     """Show the blockchain."""
+    args = resolve_args(args)
     bc = get_blockchain(args.chain, args.genesis_msg)
     table = Table(title=f"Datum Blockchain (Last {args.n} Blocks)")
     table.add_column("Index", style="cyan", justify="right")
@@ -155,6 +169,7 @@ def cmd_show(args):
 
 def cmd_verify(args):
     """Verify a file."""
+    args = resolve_args(args)
     file_path = Path(args.file)
     if not file_path.exists():
         console.print(f"[red]Error: File {file_path} not found.[/red]")
@@ -231,43 +246,67 @@ def main():
 
 --------------------------------------------------------------------------------
 """
+    # Parent parser for SUBCOMMANDS (Standard flags)
+    # 'add_help=False' prevents conflict with main parser's -h/--help
+    parent_parser = argparse.ArgumentParser(add_help=False)
+    parent_parser.add_argument(
+        '-c', '--chain', type=str, default=None, help='Blockchain file to use (overrides config)'
+    )
+    parent_parser.add_argument('-n', '--coin-name', type=str, default=None, help='Name of the currency unit')
+    parent_parser.add_argument(
+        '-g', '--gen', '--genesis-msg', dest='genesis_msg', type=str, default=None,
+        help='Custom message for Genesis Block (only on creation)'
+    )
+
     parser = argparse.ArgumentParser(
         prog="datum",
         description="Datum: Professional Blockchain & Data Integrity Tool",
         formatter_class=RichHelpFormatter,
-        add_help=False, # We handle help manually for better styling
+        # parents=[parent_parser], # DO NOT inherit here to avoid destination conflict
+        add_help=False,
         epilog=help_text
     )
 
-    # Global Arguments (Must come before subcommands)
-    parser.add_argument('-c', '--chain', type=str, default=None, help='Blockchain file to use (overrides config)')
-    parser.add_argument('-n', '--coin-name', type=str, default='Datum', help='Name of the currency unit (display only)')
-    parser.add_argument(
-        '-g', '--gen', '--genesis-msg', dest='genesis_msg', type=str, default=None,
-        help='Custom message for Genesis Block (only on creation)'
-    )
+    # Re-add help manually to main parser
     parser.add_argument('-h', '--help', action='help', help='Show this help message and exit')
+
+    # Add GLOBAL flags with DIFFERENT DESTINATIONS
+    parser.add_argument('-c', '--chain', dest='main_chain', type=str, default=None, help='Blockchain file to use')
+    parser.add_argument(
+        '-n', '--coin-name', dest='main_coin_name', type=str, default=None, help='Name of the currency unit'
+    )
+    parser.add_argument(
+        '-g', '--gen', '--genesis-msg', dest='main_genesis_msg', type=str, default=None,
+        help='Custom message for Genesis Block'
+    )
 
     subparsers = parser.add_subparsers(dest='command', help='Available commands', metavar='COMMAND')
 
     # INFO
     parser_info = subparsers.add_parser(
-        'info', help='Display configuration and status', formatter_class=RichHelpFormatter
+        'info', help='Display configuration and status', formatter_class=RichHelpFormatter,
+        parents=[parent_parser], add_help=False
     )
+    # Manually add help for subcommands to ensure it shows up in their -h output
+    parser_info.add_argument('-h', '--help', action='help', help='Show this help message and exit')
     parser_info.set_defaults(func=cmd_info)
 
     # NOTARIZE
     parser_notarize = subparsers.add_parser(
-        'notarize', help='Notarize a file (add to pending pool)', formatter_class=RichHelpFormatter
+        'notarize', help='Notarize a file (add to pending pool)', formatter_class=RichHelpFormatter,
+        parents=[parent_parser], add_help=False
     )
+    parser_notarize.add_argument('-h', '--help', action='help', help='Show this help message and exit')
     parser_notarize.add_argument('--owner', type=str, required=True, help='The name of the file owner (e.g., "Alice")')
     parser_notarize.add_argument('--file', type=str, required=True, help='Path to the file to notarize')
     parser_notarize.set_defaults(func=cmd_notarize)
 
     # MINE
     parser_mine = subparsers.add_parser(
-        'mine', help='Mine a new block to confirm pending transactions', formatter_class=RichHelpFormatter
+        'mine', help='Mine a new block to confirm pending transactions', formatter_class=RichHelpFormatter,
+        parents=[parent_parser], add_help=False
     )
+    parser_mine.add_argument('-h', '--help', action='help', help='Show this help message and exit')
     parser_mine.add_argument(
         '--miner', type=str, default=None, help='Address to receive mining rewards (defaults to config)'
     )
@@ -275,29 +314,39 @@ def main():
 
     # BALANCE
     parser_balance = subparsers.add_parser(
-        'balance', help='Check the balance of an address', formatter_class=RichHelpFormatter
+        'balance', help='Check the balance of an address', formatter_class=RichHelpFormatter,
+        parents=[parent_parser], add_help=False
     )
+    parser_balance.add_argument('-h', '--help', action='help', help='Show this help message and exit')
     parser_balance.add_argument('--address', type=str, required=True, help='The address to check')
     parser_balance.set_defaults(func=cmd_balance)
 
     # TRANSFER
     parser_transfer = subparsers.add_parser(
-        'transfer', help='Transfer currency between addresses', formatter_class=RichHelpFormatter
+        'transfer', help='Transfer currency between addresses', formatter_class=RichHelpFormatter,
+        parents=[parent_parser], add_help=False
     )
+    parser_transfer.add_argument('-h', '--help', action='help', help='Show this help message and exit')
     parser_transfer.add_argument('--from', dest='sender', required=True, help='Address sending funds')
     parser_transfer.add_argument('--to', dest='recipient', required=True, help='Address receiving funds')
     parser_transfer.add_argument('--amount', type=float, required=True, help='Amount to transfer')
     parser_transfer.set_defaults(func=cmd_transfer)
 
     # SHOW
-    parser_show = subparsers.add_parser('show', help='Show the blockchain', formatter_class=RichHelpFormatter)
+    parser_show = subparsers.add_parser(
+        'show', help='Show the blockchain', formatter_class=RichHelpFormatter,
+        parents=[parent_parser], add_help=False
+    )
+    parser_show.add_argument('-h', '--help', action='help', help='Show this help message and exit')
     parser_show.add_argument('--n', type=int, default=5, help='Number of recent blocks to show')
     parser_show.set_defaults(func=cmd_show)
 
     # VERIFY
     parser_verify = subparsers.add_parser(
-        'verify', help='Verify if a file is in the blockchain', formatter_class=RichHelpFormatter
+        'verify', help='Verify if a file is in the blockchain', formatter_class=RichHelpFormatter,
+        parents=[parent_parser], add_help=False
     )
+    parser_verify.add_argument('-h', '--help', action='help', help='Show this help message and exit')
     parser_verify.add_argument('--file', type=str, required=True, help='Path to the file to verify')
     parser_verify.set_defaults(func=cmd_verify)
 

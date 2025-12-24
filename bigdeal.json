@@ -1,0 +1,29 @@
+{
+    "chain": [
+        {
+            "index": 0,
+            "timestamp": 1766616232.611528,
+            "transactions": [
+                {
+                    "type": "genesis",
+                    "sender": null,
+                    "recipient": null,
+                    "amount": 0.0,
+                    "timestamp": 1766616232.6115215,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": "Genesis Block - Datum Project",
+                    "provenance": {
+                        "repo_url": "git@github.com:charles-forsyth/Datum.git",
+                        "commit_hash": "9eb8a3649918a10c01777b0be0a0d394da428a00"
+                    }
+                }
+            ],
+            "previous_hash": "0",
+            "nonce": 0,
+            "hash": "902438b8746dc213bd7ffb53f3ff082ea67d7debb3224d37493a1308fe3c6419"
+        }
+    ],
+    "pending_transactions": []
+}
