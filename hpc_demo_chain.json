@@ -386,7 +386,707 @@
             "previous_hash": "000017e4d2ec04764e5ca3b5f6a8727cecbe7ecdff54a6f623bf60be88c7477e",
             "nonce": 13830,
             "hash": "0000ef3bf8d1e617c0ced62a7b7fa5e7a5ff7bd647d4873e395f21543b0251fd"
+        },
+        {
+            "index": 8,
+            "timestamp": 1766611132.9225235,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Genesis",
+                    "recipient": "HPC_Admin",
+                    "amount": 0.0,
+                    "timestamp": 1766611132.922518,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "HPC_Admin",
+                    "amount": 100.0,
+                    "timestamp": 1766611132.9225206,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "0000ef3bf8d1e617c0ced62a7b7fa5e7a5ff7bd647d4873e395f21543b0251fd",
+            "nonce": 49429,
+            "hash": "0000b83967f0abd8dfcc137f7d24fbba74a204aaff3292ab3a9aeee83777129f"
+        },
+        {
+            "index": 9,
+            "timestamp": 1766611133.3105547,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Genesis",
+                    "recipient": "HPC_Admin",
+                    "amount": 0.0,
+                    "timestamp": 1766611133.3105433,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "HPC_Admin",
+                    "amount": 100.0,
+                    "timestamp": 1766611133.3105497,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "0000b83967f0abd8dfcc137f7d24fbba74a204aaff3292ab3a9aeee83777129f",
+            "nonce": 27514,
+            "hash": "0000f3b3745f0930feaaab44c0d342c588a82169f29ca4cecf08f9d5e6735592"
+        },
+        {
+            "index": 10,
+            "timestamp": 1766611133.5272973,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Genesis",
+                    "recipient": "HPC_Admin",
+                    "amount": 0.0,
+                    "timestamp": 1766611133.527288,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "HPC_Admin",
+                    "amount": 100.0,
+                    "timestamp": 1766611133.5272925,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "0000f3b3745f0930feaaab44c0d342c588a82169f29ca4cecf08f9d5e6735592",
+            "nonce": 31150,
+            "hash": "00006c1d78e800be6c8b515f3927e95ae81d18090b4010cfc4d87fcf759da4a6"
+        },
+        {
+            "index": 11,
+            "timestamp": 1766611133.7702472,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Genesis",
+                    "recipient": "HPC_Admin",
+                    "amount": 0.0,
+                    "timestamp": 1766611133.77024,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "HPC_Admin",
+                    "amount": 100.0,
+                    "timestamp": 1766611133.7702436,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "00006c1d78e800be6c8b515f3927e95ae81d18090b4010cfc4d87fcf759da4a6",
+            "nonce": 7291,
+            "hash": "00001eada16088adcbc22ccc5082fffd47bc4006989cfb8b7b819afc6ed0c3a8"
+        },
+        {
+            "index": 12,
+            "timestamp": 1766611133.8278244,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Genesis",
+                    "recipient": "HPC_Admin",
+                    "amount": 0.0,
+                    "timestamp": 1766611133.8278096,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "HPC_Admin",
+                    "amount": 100.0,
+                    "timestamp": 1766611133.8278134,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "00001eada16088adcbc22ccc5082fffd47bc4006989cfb8b7b819afc6ed0c3a8",
+            "nonce": 81437,
+            "hash": "0000a6b680d431f51dbc0d50fc22022855cd45702a729c38982765bd4e7cef40"
+        },
+        {
+            "index": 13,
+            "timestamp": 1766611134.4847212,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Genesis",
+                    "recipient": "HPC_Admin",
+                    "amount": 0.0,
+                    "timestamp": 1766611134.4847088,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "HPC_Admin",
+                    "amount": 100.0,
+                    "timestamp": 1766611134.484716,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "0000a6b680d431f51dbc0d50fc22022855cd45702a729c38982765bd4e7cef40",
+            "nonce": 68158,
+            "hash": "0000d47397b3063350d56a47622dec53d8be037562b410f6a84f48f2e4c8dd31"
+        },
+        {
+            "index": 14,
+            "timestamp": 1766611135.0408554,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Genesis",
+                    "recipient": "HPC_Admin",
+                    "amount": 0.0,
+                    "timestamp": 1766611135.0408454,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "HPC_Admin",
+                    "amount": 100.0,
+                    "timestamp": 1766611135.0408502,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "0000d47397b3063350d56a47622dec53d8be037562b410f6a84f48f2e4c8dd31",
+            "nonce": 15334,
+            "hash": "000067356a75817f07d1e7c0a05e151a1220c6b2b11bc2ca245bbe286b2457ed"
+        },
+        {
+            "index": 15,
+            "timestamp": 1766611135.1658602,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Genesis",
+                    "recipient": "HPC_Admin",
+                    "amount": 0.0,
+                    "timestamp": 1766611135.165844,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "HPC_Admin",
+                    "amount": 100.0,
+                    "timestamp": 1766611135.1658556,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "000067356a75817f07d1e7c0a05e151a1220c6b2b11bc2ca245bbe286b2457ed",
+            "nonce": 15439,
+            "hash": "000025220386916880115298158b154a4bdacd294185ddaa7c47fe5e0abcfe52"
+        },
+        {
+            "index": 16,
+            "timestamp": 1766611135.2867105,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Genesis",
+                    "recipient": "HPC_Admin",
+                    "amount": 0.0,
+                    "timestamp": 1766611135.286699,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "HPC_Admin",
+                    "amount": 100.0,
+                    "timestamp": 1766611135.2867043,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "000025220386916880115298158b154a4bdacd294185ddaa7c47fe5e0abcfe52",
+            "nonce": 139897,
+            "hash": "0000b0b242d45aea3c3287bb50966d3cb70c4fb8e2573a94da51c0d132361f44"
+        },
+        {
+            "index": 17,
+            "timestamp": 1766611136.3727252,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Genesis",
+                    "recipient": "HPC_Admin",
+                    "amount": 0.0,
+                    "timestamp": 1766611136.3727152,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "HPC_Admin",
+                    "amount": 100.0,
+                    "timestamp": 1766611136.3727207,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "0000b0b242d45aea3c3287bb50966d3cb70c4fb8e2573a94da51c0d132361f44",
+            "nonce": 19259,
+            "hash": "0000711bfd2da613e080b71e15ff72ea1ec2a923993041433e2baabb2a1e787c"
+        },
+        {
+            "index": 18,
+            "timestamp": 1766611142.1317124,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "HPC_Admin",
+                    "recipient": "Alice_Res",
+                    "amount": 100.0,
+                    "timestamp": 1766611138.9265997,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "currency",
+                    "sender": "Bob_Lab",
+                    "recipient": "HPC_Admin",
+                    "amount": 21.0,
+                    "timestamp": 1766611141.3296635,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "notarization",
+                    "sender": null,
+                    "recipient": null,
+                    "amount": 0.0,
+                    "timestamp": 1766611141.329688,
+                    "owner": "Bob_Lab",
+                    "file_hash": "h-6",
+                    "filename": "J-006",
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "HPC_Admin",
+                    "amount": 100.0,
+                    "timestamp": 1766611142.1316755,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "0000711bfd2da613e080b71e15ff72ea1ec2a923993041433e2baabb2a1e787c",
+            "nonce": 74148,
+            "hash": "00009fd0910a2bb13777599eecbff72839e8abe9361ef336e19357bff4f3e84d"
+        },
+        {
+            "index": 19,
+            "timestamp": 1766611148.5896306,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "HPC_Admin",
+                    "recipient": "Bob_Lab",
+                    "amount": 100.0,
+                    "timestamp": 1766611144.5836604,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "currency",
+                    "sender": "HPC_Admin",
+                    "recipient": "Bob_Lab",
+                    "amount": 100.0,
+                    "timestamp": 1766611146.9863546,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "HPC_Admin",
+                    "amount": 100.0,
+                    "timestamp": 1766611148.5895774,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "00009fd0910a2bb13777599eecbff72839e8abe9361ef336e19357bff4f3e84d",
+            "nonce": 31752,
+            "hash": "0000dd9155734034b63e58c7a9fa126c916bb392d8d787523bd71fb29757d588"
+        },
+        {
+            "index": 20,
+            "timestamp": 1766611154.5096502,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Alice_Res",
+                    "recipient": "HPC_Admin",
+                    "amount": 24.0,
+                    "timestamp": 1766611149.7023327,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "notarization",
+                    "sender": null,
+                    "recipient": null,
+                    "amount": 0.0,
+                    "timestamp": 1766611149.7023542,
+                    "owner": "Alice_Res",
+                    "file_hash": "h-15",
+                    "filename": "J-015",
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "currency",
+                    "sender": "Bob_Lab",
+                    "recipient": "HPC_Admin",
+                    "amount": 31.0,
+                    "timestamp": 1766611152.1059597,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "notarization",
+                    "sender": null,
+                    "recipient": null,
+                    "amount": 0.0,
+                    "timestamp": 1766611152.105976,
+                    "owner": "Bob_Lab",
+                    "file_hash": "h-18",
+                    "filename": "J-018",
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "currency",
+                    "sender": "Charlie_AI",
+                    "recipient": "HPC_Admin",
+                    "amount": 15.0,
+                    "timestamp": 1766611154.5086532,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "notarization",
+                    "sender": null,
+                    "recipient": null,
+                    "amount": 0.0,
+                    "timestamp": 1766611154.5086708,
+                    "owner": "Charlie_AI",
+                    "file_hash": "h-21",
+                    "filename": "J-021",
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "HPC_Admin",
+                    "amount": 100.0,
+                    "timestamp": 1766611154.5096366,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "0000dd9155734034b63e58c7a9fa126c916bb392d8d787523bd71fb29757d588",
+            "nonce": 157571,
+            "hash": "0000ddb90ca0c6ece456645cd49b923bbbd4e41e83f10d153da061c8a2d5105f"
+        },
+        {
+            "index": 21,
+            "timestamp": 1766611162.8012881,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Charlie_AI",
+                    "recipient": "HPC_Admin",
+                    "amount": 13.0,
+                    "timestamp": 1766611159.5968838,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "notarization",
+                    "sender": null,
+                    "recipient": null,
+                    "amount": 0.0,
+                    "timestamp": 1766611159.5968957,
+                    "owner": "Charlie_AI",
+                    "file_hash": "h-24",
+                    "filename": "J-024",
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "currency",
+                    "sender": "Charlie_AI",
+                    "recipient": "HPC_Admin",
+                    "amount": 37.0,
+                    "timestamp": 1766611161.999296,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "notarization",
+                    "sender": null,
+                    "recipient": null,
+                    "amount": 0.0,
+                    "timestamp": 1766611161.9993095,
+                    "owner": "Charlie_AI",
+                    "file_hash": "h-27",
+                    "filename": "J-027",
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "HPC_Admin",
+                    "amount": 100.0,
+                    "timestamp": 1766611162.801225,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "0000ddb90ca0c6ece456645cd49b923bbbd4e41e83f10d153da061c8a2d5105f",
+            "nonce": 58677,
+            "hash": "00007214939b55243d3e33f236f1a0b702e3d77ba9ba2dc5ccd663b59d236fb4"
+        },
+        {
+            "index": 22,
+            "timestamp": 1766611169.1842597,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Alice_Res",
+                    "recipient": "HPC_Admin",
+                    "amount": 20.0,
+                    "timestamp": 1766611165.1796632,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "notarization",
+                    "sender": null,
+                    "recipient": null,
+                    "amount": 0.0,
+                    "timestamp": 1766611165.1796784,
+                    "owner": "Alice_Res",
+                    "file_hash": "h-30",
+                    "filename": "J-030",
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "currency",
+                    "sender": "Bob_Lab",
+                    "recipient": "HPC_Admin",
+                    "amount": 10.0,
+                    "timestamp": 1766611167.5820115,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "notarization",
+                    "sender": null,
+                    "recipient": null,
+                    "amount": 0.0,
+                    "timestamp": 1766611167.5820253,
+                    "owner": "Bob_Lab",
+                    "file_hash": "h-33",
+                    "filename": "J-033",
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "HPC_Admin",
+                    "amount": 100.0,
+                    "timestamp": 1766611169.184209,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "00007214939b55243d3e33f236f1a0b702e3d77ba9ba2dc5ccd663b59d236fb4",
+            "nonce": 5280,
+            "hash": "0000ec776a8e80e6947ac4438a97f8cef0690fc3505590646a70a00f7227790f"
         }
     ],
-    "pending_transactions": []
+    "pending_transactions": [
+        {
+            "type": "currency",
+            "sender": "HPC_Admin",
+            "recipient": "Charlie_AI",
+            "amount": 100.0,
+            "timestamp": 1766611170.057528,
+            "owner": null,
+            "file_hash": null,
+            "filename": null,
+            "message": null,
+            "provenance": null
+        },
+        {
+            "type": "currency",
+            "sender": "Charlie_AI",
+            "recipient": "HPC_Admin",
+            "amount": 21.0,
+            "timestamp": 1766611172.459769,
+            "owner": null,
+            "file_hash": null,
+            "filename": null,
+            "message": null,
+            "provenance": null
+        },
+        {
+            "type": "notarization",
+            "sender": null,
+            "recipient": null,
+            "amount": 0.0,
+            "timestamp": 1766611172.4598057,
+            "owner": "Charlie_AI",
+            "file_hash": "h-39",
+            "filename": "J-039",
+            "message": null,
+            "provenance": null
+        }
+    ]
 }
