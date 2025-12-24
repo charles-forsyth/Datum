@@ -84,19 +84,47 @@ datum balance "Alice"
 datum show
 ```
 
-## Development
+## Development Workflow ("Skywalker" Standard)
 
-We enforce strict code quality standards.
+We strictly adhere to the following workflow for all changes. **Direct pushes to main are forbidden.**
 
-### Running Tests
+### 1. Branch & Bump
+Start a new feature branch and **immediately bump the version** in `pyproject.toml`.
 ```bash
-pytest
+git checkout -b feature/my-feature
+# Edit pyproject.toml: version = "0.x.y" -> "0.x.z"
 ```
 
-### Linting
+### 2. The Local Gauntlet
+Iterate until these pass:
 ```bash
-ruff check .
+uv run ruff check . --fix
+PYTHONPATH=src uv run pytest
 ```
 
-### Git Hooks
-A pre-push hook is configured to ensure no broken code is pushed to the repository.
+### 3. Push & PR
+```bash
+git push -u origin feature/my-feature
+gh pr create --fill
+```
+
+### 4. The Gatekeeper (CI)
+Wait for GitHub Actions to pass.
+```bash
+gh pr checks --watch
+```
+
+### 5. Merge
+```bash
+gh pr merge --merge --delete-branch
+```
+
+### 6. Release & Sync
+Back on `main`, pull the changes and create the release tag.
+```bash
+git checkout main && git pull
+# Create release tag matching pyproject.toml version
+gh release create v0.x.z --generate-notes
+# Update local tool
+uv tool upgrade datum
+```
