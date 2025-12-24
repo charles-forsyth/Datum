@@ -10,6 +10,7 @@ from rich.table import Table
 from datum.config import settings
 from datum.core import Blockchain
 from datum.demos.hpc import run_hpc_demo
+from datum.demos.spy import run_spy_demo
 from datum.schemas import Transaction
 from datum.utils import hash_file
 
@@ -181,6 +182,8 @@ def cmd_demo(args):
     """Run an interactive demo."""
     if args.type == "hpc":
         run_hpc_demo()
+    elif args.type == "spy":
+        run_spy_demo()
     else:
         console.print("[red]Unknown demo type.[/red]")
 
@@ -223,8 +226,9 @@ def main():
 6. Transfer funds (Pay for Compute):
    $ datum transfer --from "Lab_Workstation_1" --to "HPC_Scheduler" --amount 50
 
-7. Run the HPC Simulation Demo:
+7. Run Demos:
    $ datum demo hpc
+   $ datum demo spy
 
 --------------------------------------------------------------------------------
 '''
@@ -290,7 +294,7 @@ def main():
 
     # DEMO
     parser_demo = subparsers.add_parser('demo', help='Run interactive demos', formatter_class=RichHelpFormatter)
-    parser_demo.add_argument('type', choices=['hpc'], help='The type of demo to run')
+    parser_demo.add_argument('type', choices=['hpc', 'spy'], help='The type of demo to run')
     parser_demo.set_defaults(func=cmd_demo)
 
     if len(sys.argv) == 1:
