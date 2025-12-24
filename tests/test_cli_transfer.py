@@ -3,6 +3,7 @@ import sys
 import pytest
 
 from datum.cli import main
+from datum.config import settings
 from datum.core import Blockchain
 from datum.schemas import Transaction
 
@@ -10,6 +11,10 @@ from datum.schemas import Transaction
 @pytest.fixture
 def funded_chain(tmp_path):
     chain_file = tmp_path / "funded_chain.json"
+
+    # Ensure standard reward for testing
+    settings.mining_reward = 100.0
+
     bc = Blockchain(chain_file=str(chain_file))
     bc.difficulty = 1
     # Mine a block to fund 'Miner1'
@@ -28,9 +33,7 @@ def test_cli_transfer(capsys, monkeypatch, funded_chain):
     try:
         main()
     except SystemExit:
-        pass # argparse might exit, but we catch it if it's 0.
-             # Actually our main() calls sys.exit(0) only on no args.
-             # cmd_transfer doesn't exit unless error.
+        pass
 
     captured = capsys.readouterr()
     assert "Transaction created!" in captured.out
