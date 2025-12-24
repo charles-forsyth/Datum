@@ -1,8 +1,9 @@
+import argparse
+import sys
 from pathlib import Path
 
-import typer
 from rich.console import Console
-from rich.progress import Progress, SpinnerColumn, TextColumn
+from rich.panel import Panel
 from rich.table import Table
 
 from datum.config import settings
@@ -10,16 +11,15 @@ from datum.core import Blockchain
 from datum.schemas import Transaction
 from datum.utils import hash_file
 
-app = typer.Typer(help="Datum: Professional Blockchain & Data Integrity Tool")
+# Initialize Rich Console
 console = Console()
 
 def get_blockchain() -> Blockchain:
     return Blockchain()
 
-@app.command()
-def info():
+def cmd_info(args):
     """Display information about the current configuration."""
-    table = Table(title="Datum Configuration")
+    table = Table(title="Datum Configuration", box=None)
     table.add_column("Setting", style="cyan")
     table.add_column("Value", style="magenta")
 
@@ -29,116 +29,82 @@ def info():
     table.add_row("Difficulty", str(settings.difficulty))
     table.add_row("Mining Reward", str(settings.mining_reward))
 
-    console.print(table)
+    console.print(Panel(table, title="System Info", border_style="blue"))
 
-@app.command()
-def notarize(
-    file_path: Path = typer.Argument(..., help="Path to the file to notarize"),
-    owner: str = typer.Option(..., help="Owner of the file"),
-):
-    """Notarize a file by adding its hash to the pending transaction pool."""
+def cmd_notarize(args):
+    """Notarize a file."""
+    file_path = Path(args.file)
     if not file_path.exists():
         console.print(f"[red]Error: File {file_path} not found.[/red]")
-        raise typer.Exit(code=1)
+        sys.exit(1)
 
     file_hash = hash_file(str(file_path))
     if not file_hash:
         console.print("[red]Error calculating file hash.[/red]")
-        raise typer.Exit(code=1)
+        sys.exit(1)
 
     bc = get_blockchain()
     tx = Transaction(
         type="notarization",
-        owner=owner,
-        file_hash=file_hash,
-        filename=file_path.name,
-        timestamp=0 # Will be set by default factory in schema if 0, but schema says default factory is time.time
-    )
-    # Re-instantiate to use default time if needed, or just let schema handle it.
-    # Actually, schema default is time.time, so just don't pass it if we want current time.
-    # But we defined it with default factory.
-    tx = Transaction(
-        type="notarization",
-        owner=owner,
+        owner=args.owner,
         file_hash=file_hash,
         filename=file_path.name
     )
 
     bc.add_transaction(tx)
-    bc.save_chain() # Pending txs are in memory, but Blockchain.__init__ loads from file.
-                    # We need to save the pending txs?
-                    # The current Blockchain implementation in core.py saves the chain (blocks),
-                    # but it resets pending_transactions on load!
-                    # Ideally, pending transactions should be persisted too.
-                    # For this simple port, we'll assume 'mine' is called immediately or we need to persist pending.
-                    # Let's check core.py...
-                    # core.py: save_chain dumps self.chain. It does NOT dump pending_transactions.
-                    # This means if we run 'datum notarize' and exit, the tx is lost!
-                    # FIX: We should either auto-mine or persist pending.
-                    # The legacy script had 'add_transaction' just append to list, then 'mine' would pick it up.
-                    # But the legacy script was often run in a REPL or 'sim' mode where memory persisted,
-                    # OR in 'tool' mode where it saved to pickle.
-                    # In 'tool' mode (cli), the legacy script loaded, added tx, *didn't save pending*, and exited?
-                    # Let's re-read legacy blockchain.py...
-                    # "if args.command == 'notarize': ... bc.add_transaction(...) ... save_blockchain(bc, ...)"
-                    # And 'save_blockchain' pickled the *entire object*, including pending_transactions.
-                    # So my JSON serialization needs to save pending_transactions too!
-
-    # I will update core.py to save pending transactions in the JSON structure.
-    # For now, I'll finish CLI, then fix core.py.
+    bc.save_chain()
 
     console.print(f"[green]✅ Notarization for '{file_path.name}' added to pending pool.[/green]")
     console.print(f"File Hash: [bold cyan]{file_hash}[/bold cyan]")
     console.print("[yellow]Run 'datum mine' to confirm this transaction.[/yellow]")
 
-
-@app.command()
-def mine(miner: str = typer.Option(settings.miner_address, help="Address for mining rewards")):
-    """Mine a new block with pending transactions."""
+def cmd_mine(args):
+    """Mine a block."""
     bc = get_blockchain()
+    miner = args.miner or settings.miner_address
+
     if not bc.pending_transactions:
         console.print("[yellow]No pending transactions to mine.[/yellow]")
         return
 
-    with Progress(
-        SpinnerColumn(),
-        TextColumn("[progress.description]{task.description}"),
-        transient=True,
-    ) as progress:
-        progress.add_task(description="Mining block...", total=None)
+    with console.status(f"[bold green]Mining block for {miner}...[/bold green]"):
         success = bc.mine_pending_transactions(miner)
 
     if success:
         last_block = bc.get_latest_block()
-        console.print(f"[green]🎉 Block #{last_block.index} successfully mined![/green]")
-        console.print(f"Hash: [dim]{last_block.hash}[/dim]")
-        console.print(f"Nonce: {last_block.nonce}")
+        console.print(Panel(f"""[green]🎉 Block #{last_block.index} successfully mined![/green]
+Hash: [dim]{last_block.hash}[/dim]
+Nonce: {last_block.nonce}
+Transactions: {len(last_block.transactions)}""", title="Mining Success", border_style="green"))
     else:
         console.print("[red]Mining failed.[/red]")
 
-@app.command()
-def balance(address: str):
-    """Check the balance of an address."""
+def cmd_balance(args):
+    """Check balance."""
     bc = get_blockchain()
-    bal = bc.calculate_balance(address)
-    console.print(f"Balance for [bold]{address}[/bold]: [green]{bal} Datum[/green]")
+    bal = bc.calculate_balance(args.address)
+    console.print(Panel(
+        f"Address: [bold]{args.address}[/bold]\nBalance: [bold green]{bal} Datum[/bold green]",
+        title="Wallet Balance"
+    ))
 
-@app.command()
-def show(n: int = typer.Option(5, help="Number of recent blocks to show")):
+def cmd_show(args):
     """Show the blockchain."""
     bc = get_blockchain()
-    table = Table(title=f"Datum Blockchain (Last {n} Blocks)")
+    table = Table(title=f"Datum Blockchain (Last {args.n} Blocks)")
     table.add_column("Index", style="cyan", justify="right")
     table.add_column("Timestamp", style="magenta")
     table.add_column("Transactions", style="white")
     table.add_column("Hash", style="dim green")
 
     # Show last n blocks
-    for block in bc.chain[-n:]:
+    for block in bc.chain[-args.n:]:
         tx_summary = f"{len(block.transactions)} txs"
         if len(block.transactions) > 0:
             types = [t.type for t in block.transactions]
-            tx_summary += f" ({', '.join(types)})"
+            # Deduplicate types for cleaner output
+            unique_types = sorted(list(set(types)))
+            tx_summary += f" ({', '.join(unique_types)})"
 
         table.add_row(
             str(block.index),
@@ -149,12 +115,12 @@ def show(n: int = typer.Option(5, help="Number of recent blocks to show")):
 
     console.print(table)
 
-@app.command()
-def verify(file_path: Path):
-    """Verify if a file exists in the blockchain."""
+def cmd_verify(args):
+    """Verify a file."""
+    file_path = Path(args.file)
     if not file_path.exists():
         console.print(f"[red]Error: File {file_path} not found.[/red]")
-        raise typer.Exit(code=1)
+        sys.exit(1)
 
     file_hash = hash_file(str(file_path))
     bc = get_blockchain()
@@ -162,12 +128,93 @@ def verify(file_path: Path):
     result = bc.find_transaction_by_file_hash(file_hash)
     if result:
         block, tx = result
-        console.print("[green]✅ File verified![/green]")
-        console.print(f"Found in Block #{block.index}")
-        console.print(f"Owner: {tx.owner}")
-        console.print(f"Date: {tx.timestamp}")
+        console.print(Panel(f"""[green]✅ File Verified![/green]
+File: {tx.filename}
+Owner: {tx.owner}
+Block: #{block.index}
+Date: {tx.timestamp}
+Hash: {tx.file_hash}""", title="Verification Result", border_style="green"))
     else:
-        console.print("[red]❌ File not found in blockchain.[/red]")
+        console.print(Panel(
+            f"[red]❌ File not found in blockchain.[/red]\nHash: {file_hash}",
+            title="Verification Failed",
+            border_style="red"
+        ))
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Datum: Professional Blockchain & Data Integrity Tool",
+        formatter_class=argparse.RawTextHelpFormatter,
+        epilog='''
+--------------------------------------------------------------------------------
+🔎 EXAMPLES & WORKFLOWS
+--------------------------------------------------------------------------------
+
+1. Start by checking the system info:
+   $ datum info
+
+2. Notarize a critical document (Proof of Existence):
+   $ datum notarize --owner "Dr. Vance" --file ./research_data.pdf
+   > This adds the file's hash to the "mempool" (pending transactions).
+
+3. Confirm the transaction by mining a block:
+   $ datum mine --miner "Lab_Workstation_1"
+   > This performs the Proof-of-Work and permanently saves the transaction.
+
+4. Verify the document later (Integrity Check):
+   $ datum verify --file ./research_data.pdf
+   > Datum will calculate the hash and search the ledger for a match.
+
+5. Check your Mining Rewards:
+   $ datum balance --address "Lab_Workstation_1"
+
+6. View the Immutable Ledger:
+   $ datum show --n 10
+
+--------------------------------------------------------------------------------
+'''
+    )
+
+    subparsers = parser.add_subparsers(dest='command', help='Available commands')
+
+    # INFO
+    parser_info = subparsers.add_parser('info', help='Display configuration and status')
+    parser_info.set_defaults(func=cmd_info)
+
+    # NOTARIZE
+    parser_notarize = subparsers.add_parser('notarize', help='Notarize a file (add to pending pool)')
+    parser_notarize.add_argument('--owner', type=str, required=True, help='The name of the file owner (e.g., "Alice")')
+    parser_notarize.add_argument('--file', type=str, required=True, help='Path to the file to notarize')
+    parser_notarize.set_defaults(func=cmd_notarize)
+
+    # MINE
+    parser_mine = subparsers.add_parser('mine', help='Mine a new block to confirm pending transactions')
+    parser_mine.add_argument(
+        '--miner', type=str, default=None, help='Address to receive mining rewards (defaults to config)'
+    )
+    parser_mine.set_defaults(func=cmd_mine)
+
+    # BALANCE
+    parser_balance = subparsers.add_parser('balance', help='Check the balance of an address')
+    parser_balance.add_argument('--address', type=str, required=True, help='The address to check')
+    parser_balance.set_defaults(func=cmd_balance)
+
+    # SHOW
+    parser_show = subparsers.add_parser('show', help='Show the blockchain')
+    parser_show.add_argument('--n', type=int, default=5, help='Number of recent blocks to show')
+    parser_show.set_defaults(func=cmd_show)
+
+    # VERIFY
+    parser_verify = subparsers.add_parser('verify', help='Verify if a file is in the blockchain')
+    parser_verify.add_argument('--file', type=str, required=True, help='Path to the file to verify')
+    parser_verify.set_defaults(func=cmd_verify)
+
+    args = parser.parse_args()
+
+    if hasattr(args, 'func'):
+        args.func(args)
+    else:
+        parser.print_help()
 
 if __name__ == "__main__":
-    app()
+    main()
