@@ -22,23 +22,38 @@ class Blockchain:
             self.create_genesis_block()
 
     def create_genesis_block(self):
-        """Creates the first block in the chain."""
+        """Creates the first block in the chain with premine and custom message."""
         prov_data = get_git_provenance()
         provenance = Provenance(
             repo_url=prov_data.get('repo_url', 'N/A'),
             commit_hash=prov_data.get('commit_hash', 'N/A')
         )
 
+        transactions = []
+
+        # 1. The Genesis Metadata Transaction
         genesis_tx = Transaction(
             type="genesis",
-            message="Genesis Block - Datum Project",
+            message=settings.genesis_message,
             provenance=provenance
         )
+        transactions.append(genesis_tx)
+
+        # 2. Premine Transactions
+        for address, amount in settings.premine.items():
+            premine_tx = Transaction(
+                type="currency",
+                sender="Genesis",
+                recipient=address,
+                amount=float(amount),
+                timestamp=time.time()
+            )
+            transactions.append(premine_tx)
 
         genesis_block = Block(
             index=0,
             timestamp=time.time(),
-            transactions=[genesis_tx],
+            transactions=transactions,
             previous_hash="0",
             hash="" # Will be calculated
         )
