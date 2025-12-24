@@ -9,6 +9,7 @@ from rich.table import Table
 
 from datum.config import settings
 from datum.core import Blockchain
+from datum.demos.hpc import run_hpc_demo
 from datum.schemas import Transaction
 from datum.utils import hash_file
 
@@ -176,6 +177,13 @@ Hash: {tx.file_hash}""", title="Verification Result", border_style="green"))
             border_style="red"
         ))
 
+def cmd_demo(args):
+    """Run an interactive demo."""
+    if args.type == "hpc":
+        run_hpc_demo()
+    else:
+        console.print("[red]Unknown demo type.[/red]")
+
 class RichHelpFormatter(argparse.RawTextHelpFormatter):
     """A custom formatter that adds a bit of style to help output."""
     def _format_action_invocation(self, action):
@@ -215,8 +223,8 @@ def main():
 6. Transfer funds (Pay for Compute):
    $ datum transfer --from "Lab_Workstation_1" --to "HPC_Scheduler" --amount 50
 
-7. Use a specific chain file (HPC Simulation):
-   $ datum --chain hpc_campus.dat --coin-name HPCCredit balance --address "Student_1"
+7. Run the HPC Simulation Demo:
+   $ datum demo hpc
 
 --------------------------------------------------------------------------------
 '''
@@ -279,6 +287,11 @@ def main():
     )
     parser_verify.add_argument('--file', type=str, required=True, help='Path to the file to verify')
     parser_verify.set_defaults(func=cmd_verify)
+
+    # DEMO
+    parser_demo = subparsers.add_parser('demo', help='Run interactive demos', formatter_class=RichHelpFormatter)
+    parser_demo.add_argument('type', choices=['hpc'], help='The type of demo to run')
+    parser_demo.set_defaults(func=cmd_demo)
 
     if len(sys.argv) == 1:
         parser.print_help()
