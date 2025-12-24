@@ -9,12 +9,12 @@
 Built with a modern Python stack:
 *   **[uv](https://github.com/astral-sh/uv)** for blazing fast dependency management.
 *   **[Pydantic V2](https://docs.pydantic.dev/)** for strict data validation and schema management.
-*   **[Typer](https://typer.tiangolo.com/)** & **[Rich](https://github.com/Textualize/rich)** for a beautiful, robust CLI.
+*   **[Rich](https://github.com/Textualize/rich)** for a beautiful, robust CLI and TUI.
 *   **[Ruff](https://docs.astral.sh/ruff/)** for strict linting and formatting.
 
 ## Installation
 
-### Using uv (Recommended)
+### System-Wide Installation (Recommended)
 
 You can install Datum directly from the repository using `uv` to use it as a global CLI tool:
 
@@ -22,7 +22,7 @@ You can install Datum directly from the repository using `uv` to use it as a glo
 uv tool install git+https://github.com/charles-forsyth/Datum.git
 ```
 
-To update:
+To update to the latest version:
 ```bash
 uv tool upgrade datum
 ```
@@ -49,10 +49,22 @@ uv tool upgrade datum
 
 Once installed, the `datum` command is available globally.
 
-### Configuration
-Datum loads configuration from environment variables or a `.env` file.
-*   `DATUM_MINER_ADDRESS`: Default address for mining rewards.
-*   `DATUM_CHAIN_FILE`: File path for the blockchain storage (default: `datum_chain.json`).
+### Data & Configuration
+Datum follows XDG standards for file storage:
+*   **Ledger:** `~/.local/share/datum/ledger.json` (Default blockchain)
+*   **Config:** `~/.config/datum/.env` (Global settings)
+
+You can override these defaults using environment variables or a `.env` file in your current directory.
+
+**Example `~/.config/datum/.env`:**
+```ini
+# Customize your identity
+DATUM_MINER_ADDRESS="Chuck_Workstation"
+
+# Genesis Block Settings (Applied when creating a NEW chain)
+DATUM_GENESIS_MESSAGE="Welcome to the Datum Network - Est. 2025"
+DATUM_PREMINE='{"Chuck": 1000000, "DAO_Treasury": 500000}'
+```
 
 ### Common Commands
 
@@ -68,21 +80,36 @@ Confirm pending transactions (like notarizations) by mining a new block.
 datum mine
 ```
 
+**Transfer Funds**
+Send currency to another address.
+```bash
+datum transfer --from "Alice" --to "Bob" --amount 50.0
+```
+
 **Verify a File**
 Check if a file's current hash matches a notarized record in the blockchain.
 ```bash
 datum verify /path/to/document.pdf
 ```
 
-**Check Balance**
+**Manage Multiple Chains**
+Work with an isolated ledger for a specific project.
 ```bash
-datum balance "Alice"
+datum --chain secret_project.json --coin-name "SecretCoin" balance --address "Agent_007"
 ```
 
-**View Blockchain**
-```bash
-datum show
-```
+## Interactive Demos
+
+Datum includes several built-in demos to showcase its capabilities.
+
+**1. HPC Simulation (`datum demo hpc`)**
+Simulates a high-performance computing environment where researchers pay for compute jobs using tokens. Features a real-time TUI dashboard tracking job queues and wallet balances.
+
+**2. Spy vs. Spy (`datum demo spy`)**
+A cinematic narrative experience simulating a secure "dead drop" protocol between agents using the blockchain for encrypted communication.
+
+**3. The Bazaar (`datum demo bazaar`)**
+A high-frequency trading simulation involving three parallel blockchains (Gold, Spice, Intel) and automated trading bots executing atomic swaps.
 
 ## Development Workflow ("Skywalker" Standard)
 
