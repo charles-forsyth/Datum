@@ -1,5 +1,6 @@
 import argparse
 import sys
+import time
 from pathlib import Path
 
 from rich.console import Console
@@ -14,8 +15,10 @@ from datum.utils import hash_file
 # Initialize Rich Console
 console = Console()
 
-def get_blockchain() -> Blockchain:
-    return Blockchain()
+def get_blockchain(chain_file=None) -> Blockchain:
+    """Load blockchain, preferring CLI arg over config."""
+    path = chain_file or settings.chain_file
+    return Blockchain(chain_file=path)
 
 def cmd_info(args):
     """Display information about the current configuration."""
@@ -23,8 +26,12 @@ def cmd_info(args):
     table.add_column("Setting", style="cyan")
     table.add_column("Value", style="magenta")
 
+    # Use the resolved chain file from args or settings
+    chain_file = args.chain or settings.chain_file
+
     table.add_row("App Name", settings.app_name)
-    table.add_row("Chain File", settings.chain_file)
+    table.add_row("Chain File", chain_file)
+    table.add_row("Coin Name", args.coin_name)
     table.add_row("Miner Address", settings.miner_address)
     table.add_row("Difficulty", str(settings.difficulty))
     table.add_row("Mining Reward", str(settings.mining_reward))
@@ -43,7 +50,7 @@ def cmd_notarize(args):
         console.print("[red]Error calculating file hash.[/red]")
         sys.exit(1)
 
-    bc = get_blockchain()
+    bc = get_blockchain(args.chain)
     tx = Transaction(
         type="notarization",
         owner=args.owner,
@@ -60,7 +67,7 @@ def cmd_notarize(args):
 
 def cmd_mine(args):
     """Mine a block."""
-    bc = get_blockchain()
+    bc = get_blockchain(args.chain)
     miner = args.miner or settings.miner_address
 
     if not bc.pending_transactions:
@@ -81,16 +88,45 @@ Transactions: {len(last_block.transactions)}""", title="Mining Success", border_
 
 def cmd_balance(args):
     """Check balance."""
-    bc = get_blockchain()
+    bc = get_blockchain(args.chain)
     bal = bc.calculate_balance(args.address)
     console.print(Panel(
-        f"Address: [bold]{args.address}[/bold]\nBalance: [bold green]{bal} Datum[/bold green]",
+        f"Address: [bold]{args.address}[/bold]\nBalance: [bold green]{bal} {args.coin_name}[/bold green]",
         title="Wallet Balance"
     ))
 
+def cmd_transfer(args):
+    """Transfer currency between addresses."""
+    bc = get_blockchain(args.chain)
+    sender_bal = bc.calculate_balance(args.sender)
+
+    if sender_bal < args.amount:
+        console.print("[red]❌ Insufficient funds.[/red]")
+        console.print(f"Sender: {args.sender}")
+        console.print(f"Balance: {sender_bal} {args.coin_name}")
+        console.print(f"Required: {args.amount} {args.coin_name}")
+        sys.exit(1)
+
+    tx = Transaction(
+        type="currency",
+        sender=args.sender,
+        recipient=args.recipient,
+        amount=args.amount,
+        timestamp=time.time()
+    )
+
+    bc.add_transaction(tx)
+    bc.save_chain()
+
+    console.print(Panel(f"""[green]✅ Transaction created![/green]
+From: {args.sender}
+To: {args.recipient}
+Amount: {args.amount} {args.coin_name}""", title="Transfer Queued", border_style="green"))
+    console.print("[yellow]Run 'datum mine' to process this transfer.[/yellow]")
+
 def cmd_show(args):
     """Show the blockchain."""
-    bc = get_blockchain()
+    bc = get_blockchain(args.chain)
     table = Table(title=f"Datum Blockchain (Last {args.n} Blocks)")
     table.add_column("Index", style="cyan", justify="right")
     table.add_column("Timestamp", style="magenta")
@@ -122,7 +158,7 @@ def cmd_verify(args):
         sys.exit(1)
 
     file_hash = hash_file(str(file_path))
-    bc = get_blockchain()
+    bc = get_blockchain(args.chain)
 
     result = bc.find_transaction_by_file_hash(file_hash)
     if result:
@@ -176,14 +212,19 @@ def main():
 5. Check your Mining Rewards:
    $ datum balance --address "Lab_Workstation_1"
 
-6. View the Immutable Ledger:
-   $ datum show --n 10
+6. Transfer funds (Pay for Compute):
+   $ datum transfer --from "Lab_Workstation_1" --to "HPC_Scheduler" --amount 50
+
+7. Use a specific chain file (HPC Simulation):
+   $ datum --chain hpc_campus.dat --coin-name HPCCredit balance --address "Student_1"
 
 --------------------------------------------------------------------------------
 '''
     )
 
-    # Re-add help manually so we can control it
+    # Global Arguments (Must come before subcommands)
+    parser.add_argument('--chain', type=str, default=None, help='Blockchain file to use (overrides config)')
+    parser.add_argument('--coin-name', type=str, default='Datum', help='Name of the currency unit (display only)')
     parser.add_argument('-h', '--help', action='help', help='Show this help message and exit')
 
     subparsers = parser.add_subparsers(dest='command', help='Available commands', metavar='COMMAND')
@@ -217,6 +258,15 @@ def main():
     )
     parser_balance.add_argument('--address', type=str, required=True, help='The address to check')
     parser_balance.set_defaults(func=cmd_balance)
+
+    # TRANSFER
+    parser_transfer = subparsers.add_parser(
+        'transfer', help='Transfer currency between addresses', formatter_class=RichHelpFormatter
+    )
+    parser_transfer.add_argument('--from', dest='sender', required=True, help='Address sending funds')
+    parser_transfer.add_argument('--to', dest='recipient', required=True, help='Address receiving funds')
+    parser_transfer.add_argument('--amount', type=float, required=True, help='Amount to transfer')
+    parser_transfer.set_defaults(func=cmd_transfer)
 
     # SHOW
     parser_show = subparsers.add_parser('show', help='Show the blockchain', formatter_class=RichHelpFormatter)
