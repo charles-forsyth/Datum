@@ -102,7 +102,6 @@ def cmd_show(args):
         tx_summary = f"{len(block.transactions)} txs"
         if len(block.transactions) > 0:
             types = [t.type for t in block.transactions]
-            # Deduplicate types for cleaner output
             unique_types = sorted(list(set(types)))
             tx_summary += f" ({', '.join(unique_types)})"
 
@@ -141,10 +140,19 @@ Hash: {tx.file_hash}""", title="Verification Result", border_style="green"))
             border_style="red"
         ))
 
+class RichHelpFormatter(argparse.RawTextHelpFormatter):
+    """A custom formatter that adds a bit of style to help output."""
+    def _format_action_invocation(self, action):
+        if not action.option_strings:
+            return super()._format_action_invocation(action)
+        return ", ".join(action.option_strings)
+
 def main():
     parser = argparse.ArgumentParser(
+        prog="datum",
         description="Datum: Professional Blockchain & Data Integrity Tool",
-        formatter_class=argparse.RawTextHelpFormatter,
+        formatter_class=RichHelpFormatter,
+        add_help=False, # We handle help manually for better styling
         epilog='''
 --------------------------------------------------------------------------------
 🔎 EXAMPLES & WORKFLOWS
@@ -175,39 +183,56 @@ def main():
 '''
     )
 
-    subparsers = parser.add_subparsers(dest='command', help='Available commands')
+    # Re-add help manually so we can control it
+    parser.add_argument('-h', '--help', action='help', help='Show this help message and exit')
+
+    subparsers = parser.add_subparsers(dest='command', help='Available commands', metavar='COMMAND')
 
     # INFO
-    parser_info = subparsers.add_parser('info', help='Display configuration and status')
+    parser_info = subparsers.add_parser(
+        'info', help='Display configuration and status', formatter_class=RichHelpFormatter
+    )
     parser_info.set_defaults(func=cmd_info)
 
     # NOTARIZE
-    parser_notarize = subparsers.add_parser('notarize', help='Notarize a file (add to pending pool)')
+    parser_notarize = subparsers.add_parser(
+        'notarize', help='Notarize a file (add to pending pool)', formatter_class=RichHelpFormatter
+    )
     parser_notarize.add_argument('--owner', type=str, required=True, help='The name of the file owner (e.g., "Alice")')
     parser_notarize.add_argument('--file', type=str, required=True, help='Path to the file to notarize')
     parser_notarize.set_defaults(func=cmd_notarize)
 
     # MINE
-    parser_mine = subparsers.add_parser('mine', help='Mine a new block to confirm pending transactions')
+    parser_mine = subparsers.add_parser(
+        'mine', help='Mine a new block to confirm pending transactions', formatter_class=RichHelpFormatter
+    )
     parser_mine.add_argument(
         '--miner', type=str, default=None, help='Address to receive mining rewards (defaults to config)'
     )
     parser_mine.set_defaults(func=cmd_mine)
 
     # BALANCE
-    parser_balance = subparsers.add_parser('balance', help='Check the balance of an address')
+    parser_balance = subparsers.add_parser(
+        'balance', help='Check the balance of an address', formatter_class=RichHelpFormatter
+    )
     parser_balance.add_argument('--address', type=str, required=True, help='The address to check')
     parser_balance.set_defaults(func=cmd_balance)
 
     # SHOW
-    parser_show = subparsers.add_parser('show', help='Show the blockchain')
+    parser_show = subparsers.add_parser('show', help='Show the blockchain', formatter_class=RichHelpFormatter)
     parser_show.add_argument('--n', type=int, default=5, help='Number of recent blocks to show')
     parser_show.set_defaults(func=cmd_show)
 
     # VERIFY
-    parser_verify = subparsers.add_parser('verify', help='Verify if a file is in the blockchain')
+    parser_verify = subparsers.add_parser(
+        'verify', help='Verify if a file is in the blockchain', formatter_class=RichHelpFormatter
+    )
     parser_verify.add_argument('--file', type=str, required=True, help='Path to the file to verify')
     parser_verify.set_defaults(func=cmd_verify)
+
+    if len(sys.argv) == 1:
+        parser.print_help()
+        sys.exit(0)
 
     args = parser.parse_args()
 
