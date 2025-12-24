@@ -9,6 +9,7 @@ from rich.table import Table
 
 from datum.config import settings
 from datum.core import Blockchain
+from datum.demos.bazaar import run_bazaar_demo
 from datum.demos.hpc import run_hpc_demo
 from datum.demos.spy import run_spy_demo
 from datum.schemas import Transaction
@@ -184,6 +185,8 @@ def cmd_demo(args):
         run_hpc_demo()
     elif args.type == "spy":
         run_spy_demo()
+    elif args.type == "bazaar":
+        run_bazaar_demo()
     else:
         console.print("[red]Unknown demo type.[/red]")
 
@@ -229,6 +232,7 @@ def main():
 7. Run Demos:
    $ datum demo hpc
    $ datum demo spy
+   $ datum demo bazaar
 
 --------------------------------------------------------------------------------
 '''
@@ -294,7 +298,7 @@ def main():
 
     # DEMO
     parser_demo = subparsers.add_parser('demo', help='Run interactive demos', formatter_class=RichHelpFormatter)
-    parser_demo.add_argument('type', choices=['hpc', 'spy'], help='The type of demo to run')
+    parser_demo.add_argument('type', choices=['hpc', 'spy', 'bazaar'], help='The type of demo to run')
     parser_demo.set_defaults(func=cmd_demo)
 
     if len(sys.argv) == 1:
