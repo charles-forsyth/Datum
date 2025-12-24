@@ -28,6 +28,16 @@ class Settings(BaseSettings):
     difficulty: int = Field(4, description="Mining difficulty (number of leading zeros)")
     mining_reward: float = Field(100.0, description="Reward for mining a block")
 
+    # Genesis Configuration
+    genesis_message: str = Field(
+        "Genesis Block - Datum Project",
+        description="Custom message embedded in the first block"
+    )
+    premine: dict[str, float] = Field(
+        default_factory=dict,
+        description="Initial allocation of funds {address: amount}"
+    )
+
     # Environment variable config
     model_config = SettingsConfigDict(
         env_prefix="DATUM_",
