@@ -152,16 +152,31 @@ def cmd_show(args):
 
     # Show last n blocks
     for block in bc.chain[-args.n:]:
-        tx_summary = f"{len(block.transactions)} txs"
-        if len(block.transactions) > 0:
-            types = [t.type for t in block.transactions]
-            unique_types = sorted(list(set(types)))
-            tx_summary += f" ({', '.join(unique_types)})"
+        tx_display = f"{len(block.transactions)} txs"
+
+        # If detailed view, construct a nested table or detailed string
+        if args.details:
+            tx_details = []
+            for tx in block.transactions:
+                if tx.type == "notarization":
+                    tx_details.append(f"[yellow]NOTARIZE[/yellow] {tx.filename} ({tx.owner})")
+                elif tx.type == "currency":
+                    tx_details.append(f"[green]SEND[/green] {tx.amount} to {tx.recipient}")
+                elif tx.type == "reward":
+                    tx_details.append(f"[blue]REWARD[/blue] {tx.amount} to {tx.recipient}")
+                elif tx.type == "genesis":
+                    tx_details.append(f"[bold]GENESIS[/bold] {tx.message}")
+            tx_display = "\n".join(tx_details)
+        else:
+            if len(block.transactions) > 0:
+                types = [t.type for t in block.transactions]
+                unique_types = sorted(list(set(types)))
+                tx_display += f" ({', '.join(unique_types)})"
 
         table.add_row(
             str(block.index),
             str(block.timestamp),
-            tx_summary,
+            tx_display,
             block.hash[:10] + "..."
         )
 
@@ -267,6 +282,7 @@ D. Flexible Arguments (Flags anywhere):
    $ datum -c my_chain.json balance --address chuck
 --------------------------------------------------------------------------------
 """
+
     # Parent parser for SUBCOMMANDS (Standard flags)
     # 'add_help=False' prevents conflict with main parser's -h/--help
     parent_parser = argparse.ArgumentParser(add_help=False)
@@ -360,6 +376,7 @@ D. Flexible Arguments (Flags anywhere):
     )
     parser_show.add_argument('-h', '--help', action='help', help='Show this help message and exit')
     parser_show.add_argument('--n', type=int, default=5, help='Number of recent blocks to show')
+    parser_show.add_argument('-d', '--details', action='store_true', help='Show detailed transaction data')
     parser_show.set_defaults(func=cmd_show)
 
     # VERIFY
