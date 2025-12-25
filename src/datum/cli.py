@@ -237,22 +237,22 @@ def main():
    $ datum info
 
 2. Notarize a critical document (Proof of Existence):
-   $ datum notarize --owner "Dr. Vance" --file ./research_data.pdf
+   $ datum notarize -o "Dr. Vance" -f ./research_data.pdf
    > This adds the file's hash to the "mempool" (pending transactions).
 
 3. Confirm the transaction by mining a block:
-   $ datum mine --miner "Lab_Workstation_1"
+   $ datum mine -m "Lab_Workstation_1"
    > This performs the Proof-of-Work and permanently saves the transaction.
 
 4. Verify the document later (Integrity Check):
-   $ datum verify --file ./research_data.pdf
+   $ datum verify -f ./research_data.pdf
    > Datum will calculate the hash and search the ledger for a match.
 
 5. Check your Mining Rewards:
-   $ datum balance --address "Lab_Workstation_1"
+   $ datum balance -a "Lab_Workstation_1"
 
 6. Transfer funds (Pay for Compute):
-   $ datum transfer --from "Lab_Workstation_1" --to "HPC_Scheduler" --amount 50
+   $ datum transfer -f "Lab_Workstation_1" -t "HPC_Scheduler" --amount 50
 
 7. Run Demos:
    $ datum demo hpc
@@ -270,7 +270,7 @@ A. Create/Load a specific chain (-c / --chain):
    > This creates 'project_x.json' in the current directory if it doesn't exist.
 
 B. Use a custom currency name (-n / --coin-name):
-   $ datum -c game_economy.json -n "GoldCoins" balance --address "Player1"
+   $ datum -c game_economy.json -n "GoldCoins" balance -a "Player1"
    > Displays: Balance: 0.0 GoldCoins
 
 C. Initialize with a Custom Genesis Message (-g / --genesis-msg):
@@ -278,8 +278,8 @@ C. Initialize with a Custom Genesis Message (-g / --genesis-msg):
    > Embeds this text permanently in Block #0.
 
 D. Flexible Arguments (Flags anywhere):
-   $ datum balance -c my_chain.json --address chuck
-   $ datum -c my_chain.json balance --address chuck
+   $ datum balance -c my_chain.json -a chuck
+   $ datum -c my_chain.json balance -a chuck
 --------------------------------------------------------------------------------
 """
 
@@ -299,7 +299,6 @@ D. Flexible Arguments (Flags anywhere):
         prog="datum",
         description="Datum: Professional Blockchain & Data Integrity Tool",
         formatter_class=RichHelpFormatter,
-        # parents=[parent_parser], # DO NOT inherit here to avoid destination conflict
         add_help=False,
         epilog=help_text
     )
@@ -324,7 +323,6 @@ D. Flexible Arguments (Flags anywhere):
         'info', help='Display configuration and status', formatter_class=RichHelpFormatter,
         parents=[parent_parser], add_help=False
     )
-    # Manually add help for subcommands to ensure it shows up in their -h output
     parser_info.add_argument('-h', '--help', action='help', help='Show this help message and exit')
     parser_info.set_defaults(func=cmd_info)
 
@@ -334,8 +332,8 @@ D. Flexible Arguments (Flags anywhere):
         parents=[parent_parser], add_help=False
     )
     parser_notarize.add_argument('-h', '--help', action='help', help='Show this help message and exit')
-    parser_notarize.add_argument('--owner', type=str, required=True, help='The name of the file owner (e.g., "Alice")')
-    parser_notarize.add_argument('--file', type=str, required=True, help='Path to the file to notarize')
+    parser_notarize.add_argument('-o', '--owner', type=str, required=True, help='The name of the file owner')
+    parser_notarize.add_argument('-f', '--file', type=str, required=True, help='Path to the file to notarize')
     parser_notarize.set_defaults(func=cmd_notarize)
 
     # MINE
@@ -345,7 +343,7 @@ D. Flexible Arguments (Flags anywhere):
     )
     parser_mine.add_argument('-h', '--help', action='help', help='Show this help message and exit')
     parser_mine.add_argument(
-        '--miner', type=str, default=None, help='Address to receive mining rewards (defaults to config)'
+        '-m', '--miner', type=str, default=None, help='Address to receive mining rewards (defaults to config)'
     )
     parser_mine.set_defaults(func=cmd_mine)
 
@@ -355,7 +353,7 @@ D. Flexible Arguments (Flags anywhere):
         parents=[parent_parser], add_help=False
     )
     parser_balance.add_argument('-h', '--help', action='help', help='Show this help message and exit')
-    parser_balance.add_argument('--address', type=str, required=True, help='The address to check')
+    parser_balance.add_argument('-a', '--address', type=str, required=True, help='The address to check')
     parser_balance.set_defaults(func=cmd_balance)
 
     # TRANSFER
@@ -364,8 +362,8 @@ D. Flexible Arguments (Flags anywhere):
         parents=[parent_parser], add_help=False
     )
     parser_transfer.add_argument('-h', '--help', action='help', help='Show this help message and exit')
-    parser_transfer.add_argument('--from', dest='sender', required=True, help='Address sending funds')
-    parser_transfer.add_argument('--to', dest='recipient', required=True, help='Address receiving funds')
+    parser_transfer.add_argument('-f', '--from', dest='sender', required=True, help='Address sending funds')
+    parser_transfer.add_argument('-t', '--to', dest='recipient', required=True, help='Address receiving funds')
     parser_transfer.add_argument('--amount', type=float, required=True, help='Amount to transfer')
     parser_transfer.set_defaults(func=cmd_transfer)
 
@@ -385,7 +383,7 @@ D. Flexible Arguments (Flags anywhere):
         parents=[parent_parser], add_help=False
     )
     parser_verify.add_argument('-h', '--help', action='help', help='Show this help message and exit')
-    parser_verify.add_argument('--file', type=str, required=True, help='Path to the file to verify')
+    parser_verify.add_argument('-f', '--file', type=str, required=True, help='Path to the file to verify')
     parser_verify.set_defaults(func=cmd_verify)
 
     # DEMO
