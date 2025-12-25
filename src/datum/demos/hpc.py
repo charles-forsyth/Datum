@@ -104,9 +104,9 @@ def run_simulation_loop(bc, admin, users, active_jobs, log_func, dashboard_func)
                     log_func(f"[cyan]{user} submitted {job_id}[/cyan]")
                     active_jobs.append({"user": user, "id": job_id, "cost": cost, "status": "Queued"})
                     bc.add_transaction(Transaction(type="currency", sender=user, recipient=admin, amount=float(cost)))
-                    bc.add_transaction(
+                    bc.add_transaction(Transaction(
                         type="notarization", owner=user, filename=job_id, file_hash=f"h-{step}"
-                    )
+                    ))
                     bc.save_chain()
 
             # 2. Block Mining

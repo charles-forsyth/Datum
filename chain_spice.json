@@ -749,6 +749,534 @@
             "previous_hash": "000007869843780ffee7b594aed0987206c605018a89872e0145295a6b513f56",
             "nonce": 734181,
             "hash": "00000f6339ebaaced9439b431da2001f158f9209902c6e44e28d204e40fda041"
+        },
+        {
+            "index": 19,
+            "timestamp": 1766628350.909768,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Genesis",
+                    "recipient": "The_Mint",
+                    "amount": 100000.0,
+                    "timestamp": 1766628350.909758,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "The_Mint",
+                    "amount": 250.0,
+                    "timestamp": 1766628350.909765,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "00000f6339ebaaced9439b431da2001f158f9209902c6e44e28d204e40fda041",
+            "nonce": 8,
+            "hash": "0a6a87b1ac5b1d22b912caa9241f0b08c57223e0ea66c568d17f80d0738e5a0e"
+        },
+        {
+            "index": 20,
+            "timestamp": 1766628353.9214284,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Broker_C",
+                    "recipient": "Merchant_A",
+                    "amount": 58.0,
+                    "timestamp": 1766628352.4160345,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "currency",
+                    "sender": "Merchant_A",
+                    "recipient": "Tycoon_D",
+                    "amount": 32.0,
+                    "timestamp": 1766628352.916898,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "currency",
+                    "sender": "Broker_C",
+                    "recipient": "Smuggler_B",
+                    "amount": 34.0,
+                    "timestamp": 1766628353.4175715,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "The_Mint",
+                    "amount": 250.0,
+                    "timestamp": 1766628353.9214182,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "0a6a87b1ac5b1d22b912caa9241f0b08c57223e0ea66c568d17f80d0738e5a0e",
+            "nonce": 3,
+            "hash": "0a0f909d54984ffaa7ab434b44c4fe9c4583ba27903e48f858c606f3e47448c2"
+        },
+        {
+            "index": 21,
+            "timestamp": 1766628355.9283066,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Smuggler_B",
+                    "recipient": "Tycoon_D",
+                    "amount": 19.0,
+                    "timestamp": 1766628354.4236393,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "currency",
+                    "sender": "Broker_C",
+                    "recipient": "Merchant_A",
+                    "amount": 39.0,
+                    "timestamp": 1766628354.9240484,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "currency",
+                    "sender": "Smuggler_B",
+                    "recipient": "Merchant_A",
+                    "amount": 37.0,
+                    "timestamp": 1766628355.9252005,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "The_Mint",
+                    "amount": 250.0,
+                    "timestamp": 1766628355.928288,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "0a0f909d54984ffaa7ab434b44c4fe9c4583ba27903e48f858c606f3e47448c2",
+            "nonce": 1,
+            "hash": "09be1726c0b9d498f6b02b59805440da7a1a909965196f6c28068ca9ec81d8a5"
+        },
+        {
+            "index": 22,
+            "timestamp": 1766628357.936288,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Smuggler_B",
+                    "recipient": "Broker_C",
+                    "amount": 38.0,
+                    "timestamp": 1766628356.9329362,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "The_Mint",
+                    "amount": 250.0,
+                    "timestamp": 1766628357.9362762,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "09be1726c0b9d498f6b02b59805440da7a1a909965196f6c28068ca9ec81d8a5",
+            "nonce": 35,
+            "hash": "0ebcd847c067ba50b8ed3d4e4c5e1f3c6c5e728417eb28ac7532aa7fcc20ecbe"
+        },
+        {
+            "index": 23,
+            "timestamp": 1766628361.955402,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Tycoon_D",
+                    "recipient": "Merchant_A",
+                    "amount": 39.0,
+                    "timestamp": 1766628360.9491029,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "The_Mint",
+                    "amount": 250.0,
+                    "timestamp": 1766628361.9553766,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "0ebcd847c067ba50b8ed3d4e4c5e1f3c6c5e728417eb28ac7532aa7fcc20ecbe",
+            "nonce": 11,
+            "hash": "012449a1d1d952050bbb858da4f04a1dbcbff80032709005551477e412dea63d"
+        },
+        {
+            "index": 24,
+            "timestamp": 1766628363.9619348,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Broker_C",
+                    "recipient": "Merchant_A",
+                    "amount": 32.0,
+                    "timestamp": 1766628362.4588175,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "currency",
+                    "sender": "Merchant_A",
+                    "recipient": "Tycoon_D",
+                    "amount": 40.0,
+                    "timestamp": 1766628362.9593167,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "currency",
+                    "sender": "Merchant_A",
+                    "recipient": "Smuggler_B",
+                    "amount": 20.0,
+                    "timestamp": 1766628363.4599626,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "currency",
+                    "sender": "Tycoon_D",
+                    "recipient": "Broker_C",
+                    "amount": 11.0,
+                    "timestamp": 1766628363.9608293,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "The_Mint",
+                    "amount": 250.0,
+                    "timestamp": 1766628363.9619272,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "012449a1d1d952050bbb858da4f04a1dbcbff80032709005551477e412dea63d",
+            "nonce": 10,
+            "hash": "02dba2fecf96f344c3657d0831af366d51bc43c83bc95264ab2b160bc2deb1e5"
+        },
+        {
+            "index": 25,
+            "timestamp": 1766628365.9710174,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Smuggler_B",
+                    "recipient": "Tycoon_D",
+                    "amount": 14.4,
+                    "timestamp": 1766628364.9644833,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "The_Mint",
+                    "amount": 250.0,
+                    "timestamp": 1766628365.970996,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "02dba2fecf96f344c3657d0831af366d51bc43c83bc95264ab2b160bc2deb1e5",
+            "nonce": 46,
+            "hash": "07ac2bb2c65354c6a66afa0c154efabb3ce59064d4f41bd2ae8fd219c4c3d7b8"
+        },
+        {
+            "index": 26,
+            "timestamp": 1766628367.980064,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Smuggler_B",
+                    "recipient": "Tycoon_D",
+                    "amount": 14.8,
+                    "timestamp": 1766628367.4788978,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "The_Mint",
+                    "amount": 250.0,
+                    "timestamp": 1766628367.9799976,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "07ac2bb2c65354c6a66afa0c154efabb3ce59064d4f41bd2ae8fd219c4c3d7b8",
+            "nonce": 20,
+            "hash": "06f77eed0540e6309a9c106c1f15e096dc8fa67c76631fd6afc8a48e0d2eb6d9"
+        },
+        {
+            "index": 27,
+            "timestamp": 1766628370.001404,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Merchant_A",
+                    "recipient": "Smuggler_B",
+                    "amount": 6.4,
+                    "timestamp": 1766628368.4954376,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "currency",
+                    "sender": "Merchant_A",
+                    "recipient": "Broker_C",
+                    "amount": 26.0,
+                    "timestamp": 1766628368.9964414,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "currency",
+                    "sender": "Tycoon_D",
+                    "recipient": "Merchant_A",
+                    "amount": 14.0,
+                    "timestamp": 1766628369.9985352,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "The_Mint",
+                    "amount": 250.0,
+                    "timestamp": 1766628370.0013885,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "06f77eed0540e6309a9c106c1f15e096dc8fa67c76631fd6afc8a48e0d2eb6d9",
+            "nonce": 22,
+            "hash": "054c51985403a074f0b8af5ff691fa70126c2096711467e5c30fdb7472f3e980"
+        },
+        {
+            "index": 28,
+            "timestamp": 1766628372.017539,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Merchant_A",
+                    "recipient": "Tycoon_D",
+                    "amount": 43.0,
+                    "timestamp": 1766628372.0158062,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "The_Mint",
+                    "amount": 250.0,
+                    "timestamp": 1766628372.0175328,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "054c51985403a074f0b8af5ff691fa70126c2096711467e5c30fdb7472f3e980",
+            "nonce": 11,
+            "hash": "07bf7d6a1729845115a7f3e2a6fa9a28fef7a48a2347e734f0b37d0a57102741"
+        },
+        {
+            "index": 29,
+            "timestamp": 1766628374.026003,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Smuggler_B",
+                    "recipient": "Merchant_A",
+                    "amount": 19.0,
+                    "timestamp": 1766628372.5201266,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "currency",
+                    "sender": "Smuggler_B",
+                    "recipient": "Broker_C",
+                    "amount": 16.4,
+                    "timestamp": 1766628374.022049,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "The_Mint",
+                    "amount": 250.0,
+                    "timestamp": 1766628374.025988,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "07bf7d6a1729845115a7f3e2a6fa9a28fef7a48a2347e734f0b37d0a57102741",
+            "nonce": 17,
+            "hash": "0b13df233c887878991fc217482d2c3498f6476febec33fc5ff74696dc6ed9e3"
+        },
+        {
+            "index": 30,
+            "timestamp": 1766628376.044534,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Tycoon_D",
+                    "recipient": "Broker_C",
+                    "amount": 4.4,
+                    "timestamp": 1766628375.0299313,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "currency",
+                    "sender": "Smuggler_B",
+                    "recipient": "Broker_C",
+                    "amount": 72.0,
+                    "timestamp": 1766628375.5337827,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "The_Mint",
+                    "amount": 250.0,
+                    "timestamp": 1766628376.0445209,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "0b13df233c887878991fc217482d2c3498f6476febec33fc5ff74696dc6ed9e3",
+            "nonce": 9,
+            "hash": "0308be500fdddcfdd6164175c6545547652ee68f05a17c16137035da43f5f2a0"
         }
     ],
     "pending_transactions": []
