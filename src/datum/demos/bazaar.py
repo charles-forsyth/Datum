@@ -21,10 +21,16 @@ def setup_economy(chain_file: str, currency: str, admin: str):
         bc.create_genesis_block()
 
     # Ensure Admin has funds to start the economy
-    if bc.calculate_balance(admin) < 5000:
-        for _ in range(5):
-            bc.add_transaction(Transaction(sender="Genesis", recipient=admin, amount=0))
-            bc.mine_pending_transactions(admin) # Mining reward
+    if bc.calculate_balance(admin) < 50000:
+        # Mint 100,000 coins for the admin directly
+        bc.add_transaction(Transaction(
+            type="currency",
+            sender="Genesis",
+            recipient=admin,
+            amount=100000.0,
+            timestamp=time.time()
+        ))
+        bc.mine_pending_transactions(admin)
     return bc
 
 def render_bazaar_ui(layout, chains, actors, logs):
