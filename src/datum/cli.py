@@ -14,6 +14,7 @@ from datum.demos.hpc import run_hpc_demo
 from datum.demos.spy import run_spy_demo
 from datum.schemas import Transaction
 from datum.utils import hash_file
+from datum.wallet import WALLET_DIR, generate_wallet, get_public_key_string, load_private_key, sign_data
 
 # Initialize Rich Console
 console = Console()
@@ -50,6 +51,38 @@ def cmd_info(args):
 
     console.print(Panel(table, title="System Info", border_style="blue"))
 
+def cmd_wallet(args):
+    """Manage crypto wallets."""
+    if args.action == "create":
+        try:
+            priv_path, pub_pem = generate_wallet(args.name)
+            console.print(Panel(
+                f"[green]✅ Wallet '{args.name}' created![/green]\n"
+                f"Private Key: {priv_path}\n\n"
+                f"Public Key:\n{pub_pem}",
+                title="Wallet Generated",
+                border_style="green"
+            ))
+        except FileExistsError:
+            console.print(f"[red]Wallet '{args.name}' already exists.[/red]")
+    elif args.action == "list":
+        if not WALLET_DIR.exists():
+            console.print("No wallets found.")
+            return
+        table = Table(title="Your Wallets")
+        table.add_column("Name", style="cyan")
+        table.add_column("Path", style="dim")
+        for f in WALLET_DIR.glob("*.pem"):
+            table.add_row(f.stem, str(f))
+        console.print(table)
+    elif args.action == "show":
+        try:
+            priv_key = load_private_key(args.name)
+            pub_pem = get_public_key_string(priv_key)
+            console.print(Panel(pub_pem, title=f"Public Key: {args.name}", border_style="blue"))
+        except FileNotFoundError:
+            console.print(f"[red]Wallet '{args.name}' not found.[/red]")
+
 def cmd_notarize(args):
     """Notarize a file."""
     args = resolve_args(args)
@@ -70,6 +103,19 @@ def cmd_notarize(args):
         file_hash=file_hash,
         filename=file_path.name
     )
+
+    # Signing Logic
+    if args.sign_with:
+        try:
+            priv_key = load_private_key(args.sign_with)
+            tx.public_key = get_public_key_string(priv_key)
+            # Sign the hash of the transaction data
+            data_to_sign = tx.calculate_data_hash()
+            tx.signature = sign_data(data_to_sign, priv_key)
+            console.print(f"[dim]Signed by wallet '{args.sign_with}'[/dim]")
+        except FileNotFoundError:
+            console.print(f"[red]Wallet '{args.sign_with}' not found. Cannot sign.[/red]")
+            sys.exit(1)
 
     bc.add_transaction(tx)
     bc.save_chain()
@@ -131,7 +177,23 @@ def cmd_transfer(args):
         timestamp=time.time()
     )
 
-    bc.add_transaction(tx)
+    # Signing Logic
+    if args.sign_with:
+        try:
+            priv_key = load_private_key(args.sign_with)
+            tx.public_key = get_public_key_string(priv_key)
+            data_to_sign = tx.calculate_data_hash()
+            tx.signature = sign_data(data_to_sign, priv_key)
+            console.print(f"[dim]Signed by wallet '{args.sign_with}'[/dim]")
+        except FileNotFoundError:
+            console.print(f"[red]Wallet '{args.sign_with}' not found. Cannot sign.[/red]")
+            sys.exit(1)
+
+    success = bc.add_transaction(tx)
+    if not success:
+        console.print("[red]Transaction Rejected by Node (Invalid Signature?)[/red]")
+        sys.exit(1)
+
     bc.save_chain()
 
     console.print(Panel(f"""[green]✅ Transaction created![/green]
@@ -139,6 +201,7 @@ From: {args.sender}
 To: {args.recipient}
 Amount: {args.amount} {args.coin_name}""", title="Transfer Queued", border_style="green"))
     console.print("[yellow]Run 'datum mine' to process this transfer.[/yellow]")
+
 def cmd_show(args):
     """Show the blockchain."""
     args = resolve_args(args)
@@ -157,10 +220,12 @@ def cmd_show(args):
         if args.details:
             tx_details = []
             for tx in block.transactions:
+                sig_mark = "🔐" if tx.signature else ""
+
                 if tx.type == "notarization":
-                    tx_details.append(f"[yellow]NOTARIZE[/yellow] {tx.filename} ({tx.owner})")
+                    tx_details.append(f"[yellow]NOTARIZE[/yellow] {tx.filename} ({tx.owner}) {sig_mark}")
                 elif tx.type == "currency":
-                    tx_details.append(f"[green]SEND[/green] {tx.amount} to {tx.recipient}")
+                    tx_details.append(f"[green]SEND[/green] {tx.amount} to {tx.recipient} {sig_mark}")
                 elif tx.type == "reward":
                     tx_details.append(f"[blue]REWARD[/blue] {tx.amount} to {tx.recipient}")
                 elif tx.type == "genesis":
@@ -196,12 +261,15 @@ def cmd_verify(args):
     result = bc.find_transaction_by_file_hash(file_hash)
     if result:
         block, tx = result
+        sig_msg = "[bold green]VALID SIGNATURE[/bold green]" if tx.signature else "[dim]Unsigned[/dim]"
+
         console.print(Panel(f"""[green]✅ File Verified![/green]
 File: {tx.filename}
 Owner: {tx.owner}
 Block: #{block.index}
 Date: {tx.timestamp}
-Hash: {tx.file_hash}""", title="Verification Result", border_style="green"))
+Hash: {tx.file_hash}
+Signature: {sig_msg}""", title="Verification Result", border_style="green"))
     else:
         # 2. History Check (Audit Trail)
         history = bc.find_transactions_by_filename(file_path.name)
@@ -258,28 +326,20 @@ def main():
 1. Start by checking the system info:
    $ datum info
 
-2. Notarize a critical document (Proof of Existence):
-   $ datum notarize -o "Dr. Vance" -f ./research_data.pdf
-   > This adds the file's hash to the "mempool" (pending transactions).
+2. Create a cryptographic identity:
+   $ datum wallet create "my_identity"
+> Creates ~/.config/datum/wallets/my_identity.pem
 
-3. Confirm the transaction by mining a block:
-   $ datum mine -m "Lab_Workstation_1"
-   > This performs the Proof-of-Work and permanently saves the transaction.
+3. Notarize & Sign a document:
+   $ datum notarize -f ./contract.pdf -o "Chuck" --sign-with "my_identity"
+> The transaction is cryptographically signed.
 
-4. Verify the document later (Integrity Check):
-   $ datum verify -f ./research_data.pdf
-   > Datum will calculate the hash and search the ledger for a match.
+4. Verify the document (and signature):
+   $ datum verify -f ./contract.pdf
+> Shows "VALID SIGNATURE" if authentic.
 
-5. Check your Mining Rewards:
-   $ datum balance -a "Lab_Workstation_1"
-
-6. Transfer funds (Pay for Compute):
-   $ datum transfer -f "Lab_Workstation_1" -t "HPC_Scheduler" --amount 50
-
-7. Run Demos:
-   $ datum demo hpc
-   $ datum demo spy
-   $ datum demo bazaar
+5. Transfer funds (Signed):
+   $ datum transfer -f "Chuck" -t "Bob" --amount 50 --sign-with "my_identity"
 
 --------------------------------------------------------------------------------
 🚀 ADVANCED: MULTI-CHAIN MANAGEMENT
@@ -289,15 +349,15 @@ Datum supports managing multiple isolated blockchains.
 
 A. Create/Load a specific chain (-c / --chain):
    $ datum -c project_x.json info
-   > This creates 'project_x.json' in the current directory if it doesn't exist.
+> This creates 'project_x.json' in the current directory if it doesn't exist.
 
 B. Use a custom currency name (-n / --coin-name):
    $ datum -c game_economy.json -n "GoldCoins" balance -a "Player1"
-   > Displays: Balance: 0.0 GoldCoins
+> Displays: Balance: 0.0 GoldCoins
 
 C. Initialize with a Custom Genesis Message (-g / --genesis-msg):
    $ datum -c new_era.json -g "Launched on Dec 24, 2025" info
-   > Embeds this text permanently in Block #0.
+> Embeds this text permanently in Block #0.
 
 D. Flexible Arguments (Flags anywhere):
    $ datum balance -c my_chain.json -a chuck
@@ -345,9 +405,16 @@ D. Flexible Arguments (Flags anywhere):
         'info', help='Display configuration and status', formatter_class=RichHelpFormatter,
         parents=[parent_parser], add_help=False
     )
-    # Manually add help for subcommands to ensure it shows up in their -h output
     parser_info.add_argument('-h', '--help', action='help', help='Show this help message and exit')
     parser_info.set_defaults(func=cmd_info)
+
+    # WALLET
+    parser_wallet = subparsers.add_parser(
+        'wallet', help='Manage cryptographic wallets', formatter_class=RichHelpFormatter
+    )
+    parser_wallet.add_argument('action', choices=['create', 'list', 'show'], help='Wallet action')
+    parser_wallet.add_argument('name', nargs='?', help='Wallet name (for create/show)')
+    parser_wallet.set_defaults(func=cmd_wallet)
 
     # NOTARIZE
     parser_notarize = subparsers.add_parser(
@@ -357,6 +424,7 @@ D. Flexible Arguments (Flags anywhere):
     parser_notarize.add_argument('-h', '--help', action='help', help='Show this help message and exit')
     parser_notarize.add_argument('-o', '--owner', type=str, required=True, help='The name of the file owner')
     parser_notarize.add_argument('-f', '--file', type=str, required=True, help='Path to the file to notarize')
+    parser_notarize.add_argument('--sign-with', type=str, help='Name of wallet to sign the transaction with')
     parser_notarize.set_defaults(func=cmd_notarize)
 
     # MINE
@@ -388,6 +456,7 @@ D. Flexible Arguments (Flags anywhere):
     parser_transfer.add_argument('-f', '--from', dest='sender', required=True, help='Address sending funds')
     parser_transfer.add_argument('-t', '--to', dest='recipient', required=True, help='Address receiving funds')
     parser_transfer.add_argument('--amount', type=float, required=True, help='Amount to transfer')
+    parser_transfer.add_argument('--sign-with', type=str, help='Name of wallet to sign the transaction with')
     parser_transfer.set_defaults(func=cmd_transfer)
 
     # SHOW

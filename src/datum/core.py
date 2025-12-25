@@ -6,6 +6,7 @@ from typing import Optional
 from datum.config import settings
 from datum.schemas import Block, Provenance, Transaction
 from datum.utils import get_git_provenance
+from datum.wallet import verify_signature
 
 
 class Blockchain:
@@ -65,8 +66,27 @@ class Blockchain:
     def get_latest_block(self) -> Block:
         return self.chain[-1]
 
-    def add_transaction(self, transaction: Transaction):
+    def add_transaction(self, transaction: Transaction) -> bool:
+        """
+        Adds a transaction to the mempool.
+        Returns True if accepted, False if rejected (e.g. invalid signature).
+        """
+        # Cryptographic Verification
+        if transaction.signature and transaction.public_key:
+            # 1. Calculate the hash of the data that was signed
+            data_hash = transaction.calculate_data_hash()
+
+            # 2. Verify the signature against that hash
+            is_valid = verify_signature(data_hash, transaction.signature, transaction.public_key)
+
+            if not is_valid:
+                print("❌ Transaction Rejected: Invalid Signature.")
+                return False
+
+            # TODO: Future - Verify sender address matches public key derivation
+
         self.pending_transactions.append(transaction)
+        return True
 
     def mine_pending_transactions(self, miner_address: str) -> bool:
         if not self.pending_transactions:

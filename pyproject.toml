@@ -1,10 +1,11 @@
 [project]
 name = "datum"
-version = "0.1.26"
+version = "0.1.27"
 description = "A professional blockchain and data integrity tool."
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
+    "cryptography>=46.0.3",
     "pydantic>=2.0",
     "pydantic-settings",
     "python-dotenv",
