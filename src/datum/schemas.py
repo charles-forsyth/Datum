@@ -28,6 +28,9 @@ class Transaction(BaseModel):
     signature: Optional[str] = None
     public_key: Optional[str] = None
 
+    # Secure Messaging
+    encrypted_payload: Optional[str] = None
+
     def calculate_data_hash(self) -> str:
         """Calculates hash of transaction data for signing (excludes signature/pubkey)."""
         import hashlib
