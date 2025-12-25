@@ -286,6 +286,7 @@ def cmd_message_send(args):
         bc.add_transaction(tx)
         bc.save_chain()
         console.print("[green]✅ Secure Message broadcast to Mempool.[/green]")
+        console.print(f"Message ID (Hash): [bold cyan]{msg_hash}[/bold cyan]")
         console.print("[yellow]Run 'datum mine' to confirm.[/yellow]")
 
     except Exception as e:
