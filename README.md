@@ -104,6 +104,30 @@ Initialize a new blockchain with a specific Genesis message.
 datum --chain project_x.json --genesis-msg "Project X Initialization - 2025" info
 ```
 
+## Cryptographic Identity & Security
+
+Datum supports real ECC (Elliptic Curve Cryptography) for secure identity management and transaction signing.
+
+**1. Create a Wallet**
+Generate a private/public key pair securely in `~/.config/datum/wallets/`.
+```bash
+datum wallet create "my_identity"
+```
+
+**2. Sign Transactions**
+Prove authorship by signing notarizations or transfers with your private key.
+```bash
+datum notarize --file contract.pdf --owner "Alice" --sign-with "my_identity"
+datum transfer --from "Alice" --to "Bob" --amount 100 --sign-with "my_identity"
+```
+
+**3. Verification**
+The `verify` command automatically checks signatures.
+```bash
+datum verify --file contract.pdf
+# Output: "Signature: VALID SIGNATURE"
+```
+
 ## Interactive Demos
 
 Datum includes several built-in demos to showcase its capabilities.
