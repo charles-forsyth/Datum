@@ -1,6 +1,6 @@
 [project]
 name = "datum"
-version = "0.1.31"
+version = "0.1.32"
 description = "A professional blockchain and data integrity tool."
 readme = "README.md"
 requires-python = ">=3.9"

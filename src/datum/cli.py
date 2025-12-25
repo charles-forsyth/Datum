@@ -578,8 +578,10 @@ D. Flexible Arguments (Flags anywhere):
 
     # MESSAGE
     parser_message = subparsers.add_parser(
-        'message', help='Secure messaging (Dead Drop)', formatter_class=RichHelpFormatter
+        'message', help='Secure messaging (Dead Drop)', formatter_class=RichHelpFormatter,
+        parents=[parent_parser], add_help=False
     )
+    parser_message.add_argument('-h', '--help', action='help', help='Show this help message and exit')
     parser_message.add_argument('action', choices=['send', 'read'], help='send or read')
     # Send args
     parser_message.add_argument('--to-key', type=str, help='Path to recipient public key file')
