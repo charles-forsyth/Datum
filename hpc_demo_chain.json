@@ -17,7 +17,9 @@
                     "provenance": {
                         "repo_url": "git@github.com:charles-forsyth/Datum.git",
                         "commit_hash": "3be36cde45166ea1a3fd6e56e93bf191f61796eb"
-                    }
+                    },
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "0",
@@ -38,7 +40,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -50,7 +54,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "cf4fae39ac0469e40dac30a0761671b814793fccae46f69a65df6cdd34ad72e0",
@@ -71,7 +77,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -83,7 +91,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "00008cb817a2a7568d3895b1c53870f9c79b4675e4a4f5f5e476dd8c98e08c45",
@@ -104,7 +114,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "currency",
@@ -116,7 +128,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -128,7 +142,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "0000ce826107f17d7deb67d059719dad998fc5236e2a80cf4eddeb92c2114a87",
@@ -149,7 +165,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -161,7 +179,9 @@
                     "file_hash": "hash_placeholder",
                     "filename": "job_{step}.out",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "currency",
@@ -173,7 +193,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -185,7 +207,9 @@
                     "file_hash": "hash_placeholder",
                     "filename": "job_{step}.out",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -197,7 +221,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "00002267f3f07958c371b466933ef1b61f10549cde5fcb5d73a182ba30c39abe",
@@ -218,7 +244,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -230,7 +258,9 @@
                     "file_hash": "hash_placeholder",
                     "filename": "job_{step}.out",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -242,7 +272,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "00001bede4489e42e6da03d5fc66f108b4c2ec662a386397eac0bb2f5004ad46",
@@ -263,7 +295,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -275,7 +309,9 @@
                     "file_hash": "hash_placeholder",
                     "filename": "job_{step}.out",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "currency",
@@ -287,7 +323,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -299,7 +337,9 @@
                     "file_hash": "hash_placeholder",
                     "filename": "job_{step}.out",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -311,7 +351,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "00008150e818baaaabaa30707097e15eb56a718f516b2379c6af2367501feb0a",
@@ -332,7 +374,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -344,7 +388,9 @@
                     "file_hash": "hash_placeholder",
                     "filename": "job_{step}.out",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "currency",
@@ -356,7 +402,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -368,7 +416,9 @@
                     "file_hash": "hash_placeholder",
                     "filename": "job_{step}.out",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -380,7 +430,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "000017e4d2ec04764e5ca3b5f6a8727cecbe7ecdff54a6f623bf60be88c7477e",
@@ -401,7 +453,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -413,7 +467,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "0000ef3bf8d1e617c0ced62a7b7fa5e7a5ff7bd647d4873e395f21543b0251fd",
@@ -434,7 +490,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -446,7 +504,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "0000b83967f0abd8dfcc137f7d24fbba74a204aaff3292ab3a9aeee83777129f",
@@ -467,7 +527,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -479,7 +541,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "0000f3b3745f0930feaaab44c0d342c588a82169f29ca4cecf08f9d5e6735592",
@@ -500,7 +564,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -512,7 +578,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "00006c1d78e800be6c8b515f3927e95ae81d18090b4010cfc4d87fcf759da4a6",
@@ -533,7 +601,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -545,7 +615,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "00001eada16088adcbc22ccc5082fffd47bc4006989cfb8b7b819afc6ed0c3a8",
@@ -566,7 +638,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -578,7 +652,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "0000a6b680d431f51dbc0d50fc22022855cd45702a729c38982765bd4e7cef40",
@@ -599,7 +675,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -611,7 +689,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "0000d47397b3063350d56a47622dec53d8be037562b410f6a84f48f2e4c8dd31",
@@ -632,7 +712,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -644,7 +726,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "000067356a75817f07d1e7c0a05e151a1220c6b2b11bc2ca245bbe286b2457ed",
@@ -665,7 +749,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -677,7 +763,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "000025220386916880115298158b154a4bdacd294185ddaa7c47fe5e0abcfe52",
@@ -698,7 +786,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -710,7 +800,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "0000b0b242d45aea3c3287bb50966d3cb70c4fb8e2573a94da51c0d132361f44",
@@ -731,7 +823,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "currency",
@@ -743,7 +837,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -755,7 +851,9 @@
                     "file_hash": "h-6",
                     "filename": "J-006",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -767,7 +865,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "0000711bfd2da613e080b71e15ff72ea1ec2a923993041433e2baabb2a1e787c",
@@ -788,7 +888,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "currency",
@@ -800,7 +902,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -812,7 +916,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "00009fd0910a2bb13777599eecbff72839e8abe9361ef336e19357bff4f3e84d",
@@ -833,7 +939,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -845,7 +953,9 @@
                     "file_hash": "h-15",
                     "filename": "J-015",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "currency",
@@ -857,7 +967,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -869,7 +981,9 @@
                     "file_hash": "h-18",
                     "filename": "J-018",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "currency",
@@ -881,7 +995,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -893,7 +1009,9 @@
                     "file_hash": "h-21",
                     "filename": "J-021",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -905,7 +1023,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "0000dd9155734034b63e58c7a9fa126c916bb392d8d787523bd71fb29757d588",
@@ -926,7 +1046,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -938,7 +1060,9 @@
                     "file_hash": "h-24",
                     "filename": "J-024",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "currency",
@@ -950,7 +1074,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -962,7 +1088,9 @@
                     "file_hash": "h-27",
                     "filename": "J-027",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -974,7 +1102,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "0000ddb90ca0c6ece456645cd49b923bbbd4e41e83f10d153da061c8a2d5105f",
@@ -995,7 +1125,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -1007,7 +1139,9 @@
                     "file_hash": "h-30",
                     "filename": "J-030",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "currency",
@@ -1019,7 +1153,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -1031,7 +1167,9 @@
                     "file_hash": "h-33",
                     "filename": "J-033",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -1043,7 +1181,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "00007214939b55243d3e33f236f1a0b702e3d77ba9ba2dc5ccd663b59d236fb4",
@@ -1064,7 +1204,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "currency",
@@ -1076,7 +1218,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -1088,7 +1232,9 @@
                     "file_hash": "h-39",
                     "filename": "J-039",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "currency",
@@ -1100,7 +1246,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -1112,7 +1260,9 @@
                     "file_hash": "h-3",
                     "filename": "J-003",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "currency",
@@ -1124,7 +1274,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -1136,7 +1288,9 @@
                     "file_hash": "h-6",
                     "filename": "J-006",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -1148,7 +1302,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "0000ec776a8e80e6947ac4438a97f8cef0690fc3505590646a70a00f7227790f",
@@ -1169,7 +1325,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -1181,7 +1339,9 @@
                     "file_hash": "h-9",
                     "filename": "J-009",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "currency",
@@ -1193,7 +1353,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -1205,7 +1367,9 @@
                     "file_hash": "h-12",
                     "filename": "J-012",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -1217,7 +1381,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "000003cdc33866b7ec8e7cb2f0156a95dff8d63c8d32e112d5f5fd73fe915e25",
@@ -1238,7 +1404,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -1250,7 +1418,9 @@
                     "file_hash": "h-15",
                     "filename": "J-015",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "currency",
@@ -1262,7 +1432,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -1274,7 +1446,9 @@
                     "file_hash": "h-18",
                     "filename": "J-018",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "currency",
@@ -1286,7 +1460,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -1298,7 +1474,9 @@
                     "file_hash": "h-21",
                     "filename": "J-021",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -1310,7 +1488,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "00000a3ac4ddd741a8a47bf04dffb881dcf9eefaeab8ae59b207c3bd37688ef4",
@@ -1331,7 +1511,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "currency",
@@ -1343,7 +1525,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -1355,7 +1539,9 @@
                     "file_hash": "h-27",
                     "filename": "J-027",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -1367,7 +1553,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "0000005ec89a746ef3833cf272be95a2cd790bdb26a7eda0921d4a70fd4c9d16",
@@ -1388,7 +1576,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -1400,7 +1590,9 @@
                     "file_hash": "h-30",
                     "filename": "J-030",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "currency",
@@ -1412,7 +1604,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -1424,7 +1618,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "00000b642ba3c1474053dde1f039ae5869d43a085ef21d3b9ba00d74ce32d8db",
@@ -1445,7 +1641,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -1457,7 +1655,9 @@
                     "file_hash": "h-36",
                     "filename": "J-036",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "currency",
@@ -1469,7 +1669,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -1481,7 +1683,9 @@
                     "file_hash": "h-39",
                     "filename": "J-039",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "currency",
@@ -1493,7 +1697,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -1505,7 +1711,9 @@
                     "file_hash": "h-3",
                     "filename": "J-003",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "currency",
@@ -1517,7 +1725,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -1529,7 +1739,9 @@
                     "file_hash": "h-6",
                     "filename": "J-006",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -1541,7 +1753,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "00000167247cfe7346c6fdccaf87c8fda3aa20dd6b0fb0adc5fbf1420bc126a7",
@@ -1562,7 +1776,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "notarization",
@@ -1574,7 +1790,9 @@
                     "file_hash": "h-9",
                     "filename": "J-009",
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "currency",
@@ -1586,7 +1804,9 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 },
                 {
                     "type": "reward",
@@ -1598,13 +1818,439 @@
                     "file_hash": null,
                     "filename": null,
                     "message": null,
-                    "provenance": null
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
                 }
             ],
             "previous_hash": "00000dfd59ed229e0ad1428b6452d1a628262d2b7acfa79005247f49dbfc2d4c",
             "nonce": 7,
             "hash": "0779de23af170a9a121b42460d83b82bbc193537610b43a8496595ba631fbfe6"
+        },
+        {
+            "index": 30,
+            "timestamp": 1766632254.4036908,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Alice_Res",
+                    "recipient": "HPC_Admin",
+                    "amount": 33.0,
+                    "timestamp": 1766632251.1974468,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
+                },
+                {
+                    "type": "notarization",
+                    "sender": null,
+                    "recipient": null,
+                    "amount": 0.0,
+                    "timestamp": 1766632251.1974733,
+                    "owner": "Alice_Res",
+                    "file_hash": "h-3",
+                    "filename": "J-003",
+                    "message": null,
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
+                },
+                {
+                    "type": "currency",
+                    "sender": "Bob_Lab",
+                    "recipient": "HPC_Admin",
+                    "amount": 39.0,
+                    "timestamp": 1766632253.6018016,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
+                },
+                {
+                    "type": "notarization",
+                    "sender": null,
+                    "recipient": null,
+                    "amount": 0.0,
+                    "timestamp": 1766632253.6018188,
+                    "owner": "Bob_Lab",
+                    "file_hash": "h-6",
+                    "filename": "J-006",
+                    "message": null,
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "HPC_Admin",
+                    "amount": 250.0,
+                    "timestamp": 1766632254.4036727,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
+                }
+            ],
+            "previous_hash": "0779de23af170a9a121b42460d83b82bbc193537610b43a8496595ba631fbfe6",
+            "nonce": 17,
+            "hash": "086868262c27598bf7c3c98e0ed9d5f05d21507662e58d35eadc0a25cd02020b"
+        },
+        {
+            "index": 31,
+            "timestamp": 1766632260.0129275,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Alice_Res",
+                    "recipient": "HPC_Admin",
+                    "amount": 17.0,
+                    "timestamp": 1766632256.0063055,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
+                },
+                {
+                    "type": "notarization",
+                    "sender": null,
+                    "recipient": null,
+                    "amount": 0.0,
+                    "timestamp": 1766632256.0063186,
+                    "owner": "Alice_Res",
+                    "file_hash": "h-9",
+                    "filename": "J-009",
+                    "message": null,
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
+                },
+                {
+                    "type": "currency",
+                    "sender": "HPC_Admin",
+                    "recipient": "Charlie_AI",
+                    "amount": 100.0,
+                    "timestamp": 1766632258.4104128,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "HPC_Admin",
+                    "amount": 250.0,
+                    "timestamp": 1766632260.0128808,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
+                }
+            ],
+            "previous_hash": "086868262c27598bf7c3c98e0ed9d5f05d21507662e58d35eadc0a25cd02020b",
+            "nonce": 19,
+            "hash": "0def8b91be44d830a4cc7bfe2680f727b87024a4433cb21b1f71cc48abef7a6a"
+        },
+        {
+            "index": 32,
+            "timestamp": 1766632265.6272182,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Alice_Res",
+                    "recipient": "HPC_Admin",
+                    "amount": 23.0,
+                    "timestamp": 1766632260.817594,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
+                },
+                {
+                    "type": "notarization",
+                    "sender": null,
+                    "recipient": null,
+                    "amount": 0.0,
+                    "timestamp": 1766632260.8176098,
+                    "owner": "Alice_Res",
+                    "file_hash": "h-15",
+                    "filename": "J-015",
+                    "message": null,
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
+                },
+                {
+                    "type": "currency",
+                    "sender": "HPC_Admin",
+                    "recipient": "Bob_Lab",
+                    "amount": 100.0,
+                    "timestamp": 1766632263.221323,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
+                },
+                {
+                    "type": "currency",
+                    "sender": "Charlie_AI",
+                    "recipient": "HPC_Admin",
+                    "amount": 33.0,
+                    "timestamp": 1766632265.6254406,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
+                },
+                {
+                    "type": "notarization",
+                    "sender": null,
+                    "recipient": null,
+                    "amount": 0.0,
+                    "timestamp": 1766632265.6254523,
+                    "owner": "Charlie_AI",
+                    "file_hash": "h-21",
+                    "filename": "J-021",
+                    "message": null,
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "HPC_Admin",
+                    "amount": 250.0,
+                    "timestamp": 1766632265.6272073,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
+                }
+            ],
+            "previous_hash": "0def8b91be44d830a4cc7bfe2680f727b87024a4433cb21b1f71cc48abef7a6a",
+            "nonce": 62,
+            "hash": "0d69cb8d605fb1d6488d7f486f8ad4222a2d6264b00f4569ec885ba0a02a6654"
+        },
+        {
+            "index": 33,
+            "timestamp": 1766632271.2812283,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "Charlie_AI",
+                    "recipient": "HPC_Admin",
+                    "amount": 44.0,
+                    "timestamp": 1766632268.0675156,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
+                },
+                {
+                    "type": "notarization",
+                    "sender": null,
+                    "recipient": null,
+                    "amount": 0.0,
+                    "timestamp": 1766632268.0675333,
+                    "owner": "Charlie_AI",
+                    "file_hash": "h-24",
+                    "filename": "J-024",
+                    "message": null,
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
+                },
+                {
+                    "type": "currency",
+                    "sender": "Charlie_AI",
+                    "recipient": "HPC_Admin",
+                    "amount": 12.0,
+                    "timestamp": 1766632270.4745522,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
+                },
+                {
+                    "type": "notarization",
+                    "sender": null,
+                    "recipient": null,
+                    "amount": 0.0,
+                    "timestamp": 1766632270.4746027,
+                    "owner": "Charlie_AI",
+                    "file_hash": "h-27",
+                    "filename": "J-027",
+                    "message": null,
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "HPC_Admin",
+                    "amount": 250.0,
+                    "timestamp": 1766632271.2811928,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
+                }
+            ],
+            "previous_hash": "0d69cb8d605fb1d6488d7f486f8ad4222a2d6264b00f4569ec885ba0a02a6654",
+            "nonce": 6,
+            "hash": "050a5511b2cc7dbd60c33c29707ce6aa5ed96644580052774f4da0c1b4165c76"
+        },
+        {
+            "index": 34,
+            "timestamp": 1766632276.9013984,
+            "transactions": [
+                {
+                    "type": "currency",
+                    "sender": "HPC_Admin",
+                    "recipient": "Alice_Res",
+                    "amount": 100.0,
+                    "timestamp": 1766632272.8846037,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
+                },
+                {
+                    "type": "currency",
+                    "sender": "HPC_Admin",
+                    "recipient": "Alice_Res",
+                    "amount": 100.0,
+                    "timestamp": 1766632275.291413,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "HPC_Admin",
+                    "amount": 250.0,
+                    "timestamp": 1766632276.9013324,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null,
+                    "signature": null,
+                    "public_key": null
+                }
+            ],
+            "previous_hash": "050a5511b2cc7dbd60c33c29707ce6aa5ed96644580052774f4da0c1b4165c76",
+            "nonce": 12,
+            "hash": "05bbf93cf7df18ac1def5e93b0050d155c4673f822c4663afca19edbe2e7fe22"
         }
     ],
-    "pending_transactions": []
+    "pending_transactions": [
+        {
+            "type": "currency",
+            "sender": "Alice_Res",
+            "recipient": "HPC_Admin",
+            "amount": 28.0,
+            "timestamp": 1766632277.7040112,
+            "owner": null,
+            "file_hash": null,
+            "filename": null,
+            "message": null,
+            "provenance": null,
+            "signature": null,
+            "public_key": null
+        },
+        {
+            "type": "notarization",
+            "sender": null,
+            "recipient": null,
+            "amount": 0.0,
+            "timestamp": 1766632277.7040355,
+            "owner": "Alice_Res",
+            "file_hash": "h-36",
+            "filename": "J-036",
+            "message": null,
+            "provenance": null,
+            "signature": null,
+            "public_key": null
+        },
+        {
+            "type": "currency",
+            "sender": "Alice_Res",
+            "recipient": "HPC_Admin",
+            "amount": 37.0,
+            "timestamp": 1766632280.1097648,
+            "owner": null,
+            "file_hash": null,
+            "filename": null,
+            "message": null,
+            "provenance": null,
+            "signature": null,
+            "public_key": null
+        },
+        {
+            "type": "notarization",
+            "sender": null,
+            "recipient": null,
+            "amount": 0.0,
+            "timestamp": 1766632280.109794,
+            "owner": "Alice_Res",
+            "file_hash": "h-39",
+            "filename": "J-039",
+            "message": null,
+            "provenance": null,
+            "signature": null,
+            "public_key": null
+        }
+    ]
 }
