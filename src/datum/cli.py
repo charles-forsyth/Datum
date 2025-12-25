@@ -90,6 +90,15 @@ def cmd_wallet(args):
             console.print(Panel(pub_pem, title=f"Public Key: {args.name}", border_style="blue"))
         except FileNotFoundError:
             console.print(f"[red]Wallet '{args.name}' not found.[/red]")
+    elif args.action == "export":
+        try:
+            priv_key = load_private_key(args.name)
+            pub_pem = get_public_key_string(priv_key)
+            # Print raw for piping
+            print(pub_pem)
+        except FileNotFoundError:
+            console.print(f"[red]Wallet '{args.name}' not found.[/red]")
+            sys.exit(1)
 
 def cmd_notarize(args):
     """Notarize a file."""
