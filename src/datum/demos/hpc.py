@@ -16,11 +16,14 @@ console = Console()
 def setup_demo_chain(chain_file: str, admin: str):
     """Initializes the demo blockchain and funds the admin."""
     bc = Blockchain(chain_file=chain_file)
-    if bc.calculate_balance(admin) < 1000:
-        # Create initial wealth
-        for _ in range(10):
-            bc.add_transaction(Transaction(sender="Genesis", recipient=admin, amount=0))
-            bc.mine_pending_transactions(admin)
+    # FORCE LOW DIFFICULTY FOR DEMO
+    bc.difficulty = 1
+
+    if bc.calculate_balance(admin) < 5000:
+        # Create initial wealth via direct mint (faster)
+        bc.add_transaction(Transaction(sender="Genesis", recipient=admin, amount=10000.0, timestamp=time.time()))
+        bc.mine_pending_transactions(admin)
+
     return bc
 
 def run_hpc_demo():
@@ -101,9 +104,9 @@ def run_simulation_loop(bc, admin, users, active_jobs, log_func, dashboard_func)
                     log_func(f"[cyan]{user} submitted {job_id}[/cyan]")
                     active_jobs.append({"user": user, "id": job_id, "cost": cost, "status": "Queued"})
                     bc.add_transaction(Transaction(type="currency", sender=user, recipient=admin, amount=float(cost)))
-                    bc.add_transaction(Transaction(
+                    bc.add_transaction(
                         type="notarization", owner=user, filename=job_id, file_hash=f"h-{step}"
-                    ))
+                    )
                     bc.save_chain()
 
             # 2. Block Mining
@@ -118,4 +121,4 @@ def run_simulation_loop(bc, admin, users, active_jobs, log_func, dashboard_func)
 
         log_func("[bold white]Demo complete.[/bold white]")
         live.update(dashboard_func())
-        time.sleep(2)
+        time.sleep(1)

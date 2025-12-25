@@ -17,6 +17,9 @@ console = Console()
 def setup_economy(chain_file: str, currency: str, admin: str):
     """Initializes a specific economy."""
     bc = Blockchain(chain_file=chain_file)
+    # FORCE LOW DIFFICULTY FOR DEMO
+    bc.difficulty = 1
+
     if not bc.chain:
         bc.create_genesis_block()
 
