@@ -40,13 +40,15 @@ def render_ui(layout, state, chain_file, agent_fox, agent_crow):
 
     # Fox Panel
     fox_content = f"[bold cyan]{agent_fox}[/bold cyan]\n\nStatus: {state['fox_status']}\n\n"
-    if state["phase"] in ["ENCRYPTING", "UPLOADING"]:
+    if state.get("payload_ready"):
             fox_content += "Payload: [dim]***********[/dim]\n"
-            fox_content += "Encryption: AES-256 [green]ACTIVE[/green]\n"
+            fox_content += "Target Key: [green]ACQUIRED[/green]\n"
     layout["fox"].update(Panel(fox_content, title="Uplink Alpha", border_style="cyan"))
 
     # Crow Panel
     crow_content = f"[bold green]{agent_crow}[/bold green]\n\nStatus: {state['crow_status']}\n\n"
+    if state.get("key_published"):
+        crow_content += "Public Key: [green]BROADCAST[/green]\n"
     for m in state["messages"]:
         crow_content += f"> {m}\n"
     layout["crow"].update(Panel(crow_content, title="Downlink Beta", border_style="green"))
@@ -65,7 +67,7 @@ def render_ui(layout, state, chain_file, agent_fox, agent_crow):
 
     return layout
 
-def run_simulation_sequence(bc, state, live, update_ui_func, agent_fox):
+def run_simulation_sequence(bc, state, live, update_ui_func, agent_fox, agent_crow):
     """Executes the scripted demo sequence."""
 
     def log_ledger(msg):
@@ -73,39 +75,56 @@ def run_simulation_sequence(bc, state, live, update_ui_func, agent_fox):
         if len(state["ledger_logs"]) > 6:
             state["ledger_logs"].pop(0)
 
-    # Phase 1: Establish Connection
-    state["fox_status"] = "Handshaking..."
-    log_ledger("[dim]Initiating handshake protocol...[/dim]")
+    # Phase 1: Key Exchange (Crow)
+    state["crow_status"] = "Generating Session Keys..."
+    state["fox_status"] = "Listening for signal..."
     time.sleep(1.5)
 
-    state["crow_status"] = "Authenticating..."
-    time.sleep(1.5)
+    crow_pub_key = "PUB_KEY_CROW_7X9"
+    state["crow_status"] = "Broadcasting Public Key..."
+    state["key_published"] = True
 
-    state["fox_status"] = "Secure Tunnel Established"
-    state["crow_status"] = "Waiting for Payload"
+    # Crow notarizes their public key so Fox can find it
+    tx_key = Transaction(
+        type="notarization",
+        owner=agent_crow,
+        filename="session.key.pub",
+        file_hash=hashlib.sha256(crow_pub_key.encode()).hexdigest()
+    )
+    bc.add_transaction(tx_key)
+    bc.mine_pending_transactions("Network_Node_01")
+    log_ledger(f"[green]KEY REGISTRY:[/green] {agent_crow} published public key")
+    live.update(update_ui_func())
+    time.sleep(2.0)
+
+    # Phase 2: Fox Acquires Key
+    state["fox_status"] = "Scanning for receiver key..."
+    time.sleep(1.5)
+    state["fox_status"] = "Key Found. Verifying..."
+    time.sleep(1.0)
+    state["fox_status"] = "Key Verified. Preparing Payload."
+    state["payload_ready"] = True
     live.update(update_ui_func())
     time.sleep(1.5)
 
-    # Phase 2: Fox Prepares Data
+    # Phase 3: Encryption
     state["phase"] = "ENCRYPTING"
-    state["fox_status"] = "Encrypting Payload..."
-    log_ledger("Preparing secure package...")
+    state["fox_status"] = "Encrypting with CROW_PUB_KEY..."
+    log_ledger("Fox is encrypting payload...")
 
     secret_data = "BLUEPRINT_OMEGA_V2"
-    # Simulate processing time
     for i in range(1, 4):
-        state["fox_status"] = f"Encrypting Payload... {i*33}%%"
-        time.sleep(0.8)
+        state["fox_status"] = f"Encrypting... {i*33}%%"
+        time.sleep(0.6)
         live.update(update_ui_func())
 
     encrypted_hash = hashlib.sha256(secret_data.encode()).hexdigest()
-    state["fox_status"] = "Payload Encrypted."
-    time.sleep(1.5)
+    state["fox_status"] = "Payload Secured."
+    time.sleep(1.0)
 
-    # Phase 3: The Drop (Notarize)
+    # Phase 4: The Drop
     state["phase"] = "UPLOADING"
-    state["fox_status"] = "Notarizing to Chain..."
-    log_ledger(f"Fox is dropping package hash: {encrypted_hash[:8]}...")
+    state["fox_status"] = "Notarizing Encrypted Drop..."
 
     tx = Transaction(
         type="notarization",
@@ -115,18 +134,15 @@ def run_simulation_sequence(bc, state, live, update_ui_func, agent_fox):
     )
     bc.add_transaction(tx)
     bc.save_chain()
-    log_ledger(f"[yellow]PENDING:[/yellow] Notarization from {agent_fox}")
+    log_ledger(f"[yellow]PENDING:[/yellow] Secure Drop from {agent_fox}")
     time.sleep(2.0)
 
-    # Phase 4: Mining (The Wait)
+    # Phase 5: Mining
     state["alert_level"] = "ELEVATED"
     log_ledger("[bold red]! NETWORK SPIKE DETECTED ![/bold red]")
-    time.sleep(1.5)
+    state["fox_status"] = "Holding..."
+    state["crow_status"] = "Monitoring Chain..."
 
-    state["fox_status"] = "Waiting for Confirmation..."
-    state["crow_status"] = "Scanning Mempool..."
-
-    # Dramatic mining pause
     for _ in range(3):
         log_ledger("[dim]Mining block... hashing...[/dim]")
         time.sleep(1.0)
@@ -134,27 +150,26 @@ def run_simulation_sequence(bc, state, live, update_ui_func, agent_fox):
 
     bc.mine_pending_transactions("Network_Node_01")
     last_block = bc.get_latest_block()
-    log_ledger(f"[bold green]BLOCK #{last_block.index} MINED[/bold green] | Hash: {last_block.hash[:10]}...")
+    log_ledger(f"[bold green]BLOCK #{last_block.index} MINED[/bold green]")
     state["alert_level"] = "LOW"
     time.sleep(2.0)
 
-    # Phase 5: Verification
+    # Phase 6: Decryption (Crow)
     state["phase"] = "VERIFYING"
-    state["crow_status"] = "Block Received. Verifying..."
-    log_ledger("Crow is verifying integrity...")
-    time.sleep(2.0)
+    state["crow_status"] = "New Block Detected. Scanning..."
+    time.sleep(1.5)
 
-    # Crow "finds" the transaction
+    # Crow finds the transaction
     block, found_tx = bc.find_transaction_by_file_hash(encrypted_hash)
 
     if found_tx:
-        state["crow_status"] = "Target Acquired."
-        state["messages"].append("[green]Hash Match Confirmed[/green]")
+        state["crow_status"] = "Package Located."
+        state["messages"].append("[green]Encrypted Payload Found[/green]")
         time.sleep(1.0)
-        state["messages"].append(f"Owner: {found_tx.owner}")
-        time.sleep(1.0)
-        state["messages"].append("Decrypting...")
+        state["messages"].append("Applying Private Key...")
         time.sleep(1.5)
+        state["messages"].append("[bold]DECRYPTION SUCCESSFUL[/bold]")
+        time.sleep(1.0)
         state["messages"].append(f"[bold white]SECRET: {secret_data}[/bold white]")
         state["fox_status"] = "Mission Complete. Disconnecting."
 
@@ -168,7 +183,6 @@ def run_spy_demo():
 
     agent_fox = "Agent_Fox"
     agent_crow = "Agent_Crow"
-    # CounterIntel logic removed for simplicity in this version, but concept remains
 
     layout = Layout()
     layout.split_column(
@@ -185,11 +199,12 @@ def run_spy_demo():
     state = {
         "phase": "INIT",
         "fox_status": "Idle",
-        "crow_status": "Listening",
+        "crow_status": "Idle",
         "alert_level": "LOW",
+        "key_published": False,
+        "payload_ready": False,
         "messages": [],
         "ledger_logs": [],
-        "progress": 0
     }
 
     # Wrapper to pass state to the renderer
@@ -198,4 +213,4 @@ def run_spy_demo():
 
     # The Narrative Loop
     with Live(update_ui(), refresh_per_second=4) as live:
-        run_simulation_sequence(bc, state, live, update_ui, agent_fox)
+        run_simulation_sequence(bc, state, live, update_ui, agent_fox, agent_crow)
