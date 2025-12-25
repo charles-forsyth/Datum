@@ -123,6 +123,15 @@ class Blockchain:
                     return block, tx
         return None
 
+    def find_transactions_by_filename(self, filename: str) -> list[tuple[Block, Transaction]]:
+        """Finds all notarization transactions for a given filename."""
+        results = []
+        for block in self.chain:
+            for tx in block.transactions:
+                if tx.type == 'notarization' and tx.filename == filename:
+                    results.append((block, tx))
+        return results
+
     def save_chain(self):
         """Saves the blockchain and pending transactions to a JSON file."""
         data = {
