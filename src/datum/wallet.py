@@ -1,9 +1,12 @@
 import base64
+import os
 from pathlib import Path
 
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import ec
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+from cryptography.hazmat.primitives.kdf.hkdf import HKDF
 
 WALLET_DIR = Path.home() / ".config" / "datum" / "wallets"
 
@@ -47,19 +50,27 @@ def generate_wallet(name: str):
 
 def load_private_key(name: str):
     """Loads a private key from the wallet directory."""
-    path = WALLET_DIR / f"{name}.pem"
+    # Check if name is a file path first
+    path = Path(name)
     if not path.exists():
-        # Try finding it as a direct path if provided
-        if Path(name).exists():
-            path = Path(name)
-        else:
-            raise FileNotFoundError(f"Wallet '{name}' not found.")
+        path = WALLET_DIR / f"{name}.pem"
+
+    if not path.exists():
+        raise FileNotFoundError(f"Wallet '{name}' not found.")
 
     with open(path, "rb") as f:
         return serialization.load_pem_private_key(
             f.read(),
             password=None
         )
+
+def load_public_key(path_or_pem: str):
+    """Loads a public key from a file path or direct PEM string."""
+    if os.path.exists(path_or_pem):
+        with open(path_or_pem, "rb") as f:
+            return serialization.load_pem_public_key(f.read())
+    else:
+        return serialization.load_pem_public_key(path_or_pem.encode('utf-8'))
 
 def get_public_key_string(private_key) -> str:
     """Extracts the public key string (PEM) from a private key object."""
@@ -91,3 +102,83 @@ def verify_signature(data: str, signature_b64: str, public_key_pem: str) -> bool
         return True
     except (InvalidSignature, Exception):
         return False
+
+# --- HYBRID ENCRYPTION (ECDH + AES-GCM) ---
+
+def encrypt_for_recipient(data: bytes, recipient_pub_pem: str) -> str:
+    """
+    Encrypts data so only the owner of the private key corresponding
+    to `recipient_pub_pem` can read it.
+    Returns: Base64 string combining (Ephemeral Pub Key + Nonce + Ciphertext)
+    """
+    recipient_pub_key = load_public_key(recipient_pub_pem)
+
+    # 1. Generate Ephemeral Keypair
+    ephemeral_priv = ec.generate_private_key(ec.SECP256R1())
+    ephemeral_pub = ephemeral_priv.public_key()
+
+    # 2. Perform ECDH to get Shared Secret
+    shared_key = ephemeral_priv.exchange(ec.ECDH(), recipient_pub_key)
+
+    # 3. Derive AES Key (HKDF)
+    derived_key = HKDF(
+        algorithm=hashes.SHA256(),
+        length=32,
+        salt=None,
+        info=b'datum-protocol-v1',
+    ).derive(shared_key)
+
+    # 4. Encrypt Data (AES-GCM)
+    aesgcm = AESGCM(derived_key)
+    nonce = os.urandom(12)
+    ciphertext = aesgcm.encrypt(nonce, data, None)
+
+    # 5. Pack it all up: Ephemeral Pub Key (PEM) + Nonce + Ciphertext
+    # We need the ephemeral public key to decrypt (to derive the same shared secret)
+    ephemeral_pub_bytes = ephemeral_pub.public_bytes(
+        encoding=serialization.Encoding.DER,
+        format=serialization.PublicFormat.SubjectPublicKeyInfo
+    )
+
+    # Simple Length-Prefix framing:
+    # [4 bytes len pubkey][pubkey bytes][12 bytes nonce][ciphertext]
+    # Actually, simpler: Just base64 encode individually or use a separator.
+    # Let's use a simple separator "||" on base64 strings
+    b64_pub = base64.b64encode(ephemeral_pub_bytes).decode('utf-8')
+    b64_nonce = base64.b64encode(nonce).decode('utf-8')
+    b64_cipher = base64.b64encode(ciphertext).decode('utf-8')
+
+    return f"{b64_pub}||{b64_nonce}||{b64_cipher}"
+
+def decrypt_data(packed_data: str, recipient_priv_key) -> bytes:
+    """Decrypts data using the recipient's private key."""
+    try:
+        parts = packed_data.split("||")
+        if len(parts) != 3:
+            raise ValueError("Invalid encrypted format")
+
+        b64_pub, b64_nonce, b64_cipher = parts
+
+        ephemeral_pub_bytes = base64.b64decode(b64_pub)
+        nonce = base64.b64decode(b64_nonce)
+        ciphertext = base64.b64decode(b64_cipher)
+
+        ephemeral_pub_key = serialization.load_der_public_key(ephemeral_pub_bytes)
+
+        # 1. Re-derive Shared Secret
+        shared_key = recipient_priv_key.exchange(ec.ECDH(), ephemeral_pub_key)
+
+        # 2. Re-derive AES Key
+        derived_key = HKDF(
+            algorithm=hashes.SHA256(),
+            length=32,
+            salt=None,
+            info=b'datum-protocol-v1',
+        ).derive(shared_key)
+
+        # 3. Decrypt
+        aesgcm = AESGCM(derived_key)
+        return aesgcm.decrypt(nonce, ciphertext, None)
+
+    except Exception as e:
+        raise ValueError(f"Decryption failed: {e}") from e

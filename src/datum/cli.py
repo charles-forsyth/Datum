@@ -14,7 +14,15 @@ from datum.demos.hpc import run_hpc_demo
 from datum.demos.spy import run_spy_demo
 from datum.schemas import Transaction
 from datum.utils import hash_file
-from datum.wallet import WALLET_DIR, generate_wallet, get_public_key_string, load_private_key, sign_data
+from datum.wallet import (
+    WALLET_DIR,
+    decrypt_data,
+    encrypt_for_recipient,
+    generate_wallet,
+    get_public_key_string,
+    load_private_key,
+    sign_data,
+)
 
 # Initialize Rich Console
 console = Console()
@@ -91,17 +99,40 @@ def cmd_notarize(args):
         console.print(f"[red]Error: File {file_path} not found.[/red]")
         sys.exit(1)
 
-    file_hash = hash_file(str(file_path))
-    if not file_hash:
-        console.print("[red]Error calculating file hash.[/red]")
-        sys.exit(1)
+    # 1. Read File Content
+    # If encrypting, we use the ENCRYPTED content for the hash and storage
+    # If not encrypting, we just hash the file
+
+    file_content_bytes = file_path.read_bytes()
+    encrypted_blob = None
+
+    if args.encrypt_for:
+        try:
+            # Read public key from file
+            with open(args.encrypt_for) as f:
+                recipient_pem = f.read()
+
+            console.print("[dim]Encrypting for recipient...[/dim]")
+            encrypted_blob = encrypt_for_recipient(file_content_bytes, recipient_pem)
+            # Hash the ENCRYPTED data for the blockchain record
+            import hashlib
+            file_hash = hashlib.sha256(encrypted_blob.encode('utf-8')).hexdigest()
+        except Exception as e:
+            console.print(f"[red]Encryption Failed: {e}[/red]")
+            sys.exit(1)
+    else:
+        file_hash = hash_file(str(file_path))
+        if not file_hash:
+            console.print("[red]Error calculating file hash.[/red]")
+            sys.exit(1)
 
     bc = get_blockchain(args.chain, args.genesis_msg)
     tx = Transaction(
         type="notarization",
         owner=args.owner,
         file_hash=file_hash,
-        filename=file_path.name
+        filename=file_path.name,
+        encrypted_payload=encrypted_blob
     )
 
     # Signing Logic
@@ -120,7 +151,11 @@ def cmd_notarize(args):
     bc.add_transaction(tx)
     bc.save_chain()
 
-    console.print(f"[green]✅ Notarization for '{file_path.name}' added to pending pool.[/green]")
+    msg = f"[green]✅ Notarization for '{file_path.name}' added to pending pool.[/green]"
+    if encrypted_blob:
+        msg += "\n🔒 [bold yellow]PAYLOAD ENCRYPTED[/bold yellow]"
+
+    console.print(msg)
     console.print(f"File Hash: [bold cyan]{file_hash}[/bold cyan]")
     console.print("[yellow]Run 'datum mine' to confirm this transaction.[/yellow]")
 
@@ -202,6 +237,86 @@ To: {args.recipient}
 Amount: {args.amount} {args.coin_name}""", title="Transfer Queued", border_style="green"))
     console.print("[yellow]Run 'datum mine' to process this transfer.[/yellow]")
 
+def cmd_message_send(args):
+    # Encrypt text as a "notarization" payload
+    if not args.to_key or not args.msg:
+        console.print("[red]--to-key and --msg are required for sending.[/red]")
+        sys.exit(1)
+
+    try:
+        # Load public key
+        with open(args.to_key) as f:
+            recipient_pem = f.read()
+
+        encrypted_blob = encrypt_for_recipient(args.msg.encode('utf-8'), recipient_pem)
+
+        # Create Transaction
+        import hashlib
+        msg_hash = hashlib.sha256(encrypted_blob.encode('utf-8')).hexdigest()
+
+        bc = get_blockchain(args.chain, args.genesis_msg)
+        tx = Transaction(
+            type="notarization", # We use notarization for data storage
+            owner="Anonymous" if not args.sign_with else args.sign_with,
+            file_hash=msg_hash,
+            filename="secure_message.dat",
+            encrypted_payload=encrypted_blob
+        )
+
+        if args.sign_with:
+            try:
+                priv_key = load_private_key(args.sign_with)
+                tx.public_key = get_public_key_string(priv_key)
+                data_to_sign = tx.calculate_data_hash()
+                tx.signature = sign_data(data_to_sign, priv_key)
+            except FileNotFoundError:
+                console.print(f"[red]Wallet '{args.sign_with}' not found.[/red]")
+                sys.exit(1)
+
+        bc.add_transaction(tx)
+        bc.save_chain()
+        console.print("[green]✅ Secure Message broadcast to Mempool.[/green]")
+        console.print("[yellow]Run 'datum mine' to confirm.[/yellow]")
+
+    except Exception as e:
+        console.print(f"[red]Failed to encrypt/send: {e}[/red]")
+
+def cmd_message_read(args):
+    # Decrypt a payload by hash or transaction ID logic
+    if not args.hash or not args.wallet:
+        console.print("[red]--hash and --wallet are required to read.[/red]")
+        sys.exit(1)
+
+    bc = get_blockchain(args.chain, args.genesis_msg)
+    result = bc.find_transaction_by_file_hash(args.hash)
+
+    if not result:
+        console.print(f"[red]Message with hash {args.hash} not found.[/red]")
+        sys.exit(1)
+
+    block, tx = result
+    if not tx.encrypted_payload:
+        console.print("[red]This transaction has no encrypted payload.[/red]")
+        sys.exit(1)
+
+    try:
+        priv_key = load_private_key(args.wallet)
+        plaintext = decrypt_data(tx.encrypted_payload, priv_key)
+        console.print(Panel(plaintext.decode('utf-8'), title="🔓 Decrypted Message", border_style="green"))
+    except Exception as e:
+        console.print(
+            f"[red]Decryption Failed: {e}[/red]\n"
+            f"(Are you sure this message was encrypted for wallet '{args.wallet}'?)"
+        )
+
+def cmd_message(args):
+    """Secure messaging interface."""
+    if args.action == "send":
+        cmd_message_send(args)
+    elif args.action == "read":
+        cmd_message_read(args)
+
+
 def cmd_show(args):
     """Show the blockchain."""
     args = resolve_args(args)
@@ -221,9 +336,10 @@ def cmd_show(args):
             tx_details = []
             for tx in block.transactions:
                 sig_mark = "🔐" if tx.signature else ""
+                enc_mark = "📦" if tx.encrypted_payload else ""
 
                 if tx.type == "notarization":
-                    tx_details.append(f"[yellow]NOTARIZE[/yellow] {tx.filename} ({tx.owner}) {sig_mark}")
+                    tx_details.append(f"[yellow]NOTARIZE[/yellow] {tx.filename} ({tx.owner}) {sig_mark} {enc_mark}")
                 elif tx.type == "currency":
                     tx_details.append(f"[green]SEND[/green] {tx.amount} to {tx.recipient} {sig_mark}")
                 elif tx.type == "reward":
@@ -254,6 +370,17 @@ def cmd_verify(args):
         console.print(f"[red]Error: File {file_path} not found.[/red]")
         sys.exit(1)
 
+    # Note: If file was encrypted, local file hash won't match chain hash (which is hash of ciphertext)
+    # We first try verifying plaintext hash.
+    # If not found, we check if user wants to try decrypting a matched payload?
+    # Actually, standard flow:
+    # 1. datum verify -f file.txt -> Hashes file.txt -> Checks chain.
+    # If the file was encrypted, the chain has Hash(Encrypted).
+    # So to verify, you need the encrypted blob locally?
+    # Or, the user is just verifying the existence of the *record* they downloaded?
+
+    # Simple approach: Verify checks hashes. If you notarized encrypted, you verify encrypted file.
+
     file_hash = hash_file(str(file_path))
     bc = get_blockchain(args.chain, args.genesis_msg)
 
@@ -262,6 +389,22 @@ def cmd_verify(args):
     if result:
         block, tx = result
         sig_msg = "[bold green]VALID SIGNATURE[/bold green]" if tx.signature else "[dim]Unsigned[/dim]"
+        enc_msg = ""
+
+        if tx.encrypted_payload:
+            enc_msg = "\n🔒 [bold yellow]Payload is Encrypted[/bold yellow]"
+            if args.decrypt_with:
+                try:
+                    priv_key = load_private_key(args.decrypt_with)
+                    plaintext = decrypt_data(tx.encrypted_payload, priv_key)
+                    # Save decrypted? Or just show?
+                    enc_msg += f"\n[green]Decryption Successful![/green]\nPreview: {plaintext[:50]}..."
+                    if args.output:
+                        with open(args.output, 'wb') as f:
+                            f.write(plaintext)
+                        enc_msg += f"\nSaved to {args.output}"
+                except Exception as e:
+                    enc_msg += f"\n[red]Decryption Failed: {e}[/red]"
 
         console.print(Panel(f"""[green]✅ File Verified![/green]
 File: {tx.filename}
@@ -269,7 +412,7 @@ Owner: {tx.owner}
 Block: #{block.index}
 Date: {tx.timestamp}
 Hash: {tx.file_hash}
-Signature: {sig_msg}""", title="Verification Result", border_style="green"))
+Signature: {sig_msg}{enc_msg}""", title="Verification Result", border_style="green"))
     else:
         # 2. History Check (Audit Trail)
         history = bc.find_transactions_by_filename(file_path.name)
@@ -326,20 +469,25 @@ def main():
 1. Start by checking the system info:
    $ datum info
 
-2. Create a cryptographic identity:
+2. Create a Cryptographic Identity (Secure Wallet):
    $ datum wallet create "my_identity"
-> Creates ~/.config/datum/wallets/my_identity.pem
+   > Generates keys in ~/.config/datum/wallets/
 
-3. Notarize & Sign a document:
-   $ datum notarize -f ./contract.pdf -o "Chuck" --sign-with "my_identity"
-> The transaction is cryptographically signed.
+3. Notarize & Sign a Document (Proof of Authorship):
+   $ datum notarize -o "Dr. Vance" -f ./research.pdf --sign-with "my_identity"
+   > The transaction is cryptographically signed.
 
-4. Verify the document (and signature):
-   $ datum verify -f ./contract.pdf
-> Shows "VALID SIGNATURE" if authentic.
+4. Verify a Document (and Signature):
+   $ datum verify -f ./research.pdf
+   > Checks the hash AND validates the signature ("VALID SIGNATURE").
 
-5. Transfer funds (Signed):
-   $ datum transfer -f "Chuck" -t "Bob" --amount 50 --sign-with "my_identity"
+5. Transfer Funds Securely:
+   $ datum transfer -f "Alice" -t "Bob" --amount 50 --sign-with "alice_key"
+
+6. Secure Messaging (The "Dead Drop"):
+   $ datum wallet export --public "bob" > bob.pub
+   $ datum message send --to-key bob.pub --msg "Meet at midnight" --sign-with "alice"
+   $ datum message read --hash <TX_HASH> --wallet "bob"
 
 --------------------------------------------------------------------------------
 🚀 ADVANCED: MULTI-CHAIN MANAGEMENT
@@ -349,15 +497,15 @@ Datum supports managing multiple isolated blockchains.
 
 A. Create/Load a specific chain (-c / --chain):
    $ datum -c project_x.json info
-> This creates 'project_x.json' in the current directory if it doesn't exist.
+   > This creates 'project_x.json' in the current directory if it doesn't exist.
 
 B. Use a custom currency name (-n / --coin-name):
    $ datum -c game_economy.json -n "GoldCoins" balance -a "Player1"
-> Displays: Balance: 0.0 GoldCoins
+   > Displays: Balance: 0.0 GoldCoins
 
 C. Initialize with a Custom Genesis Message (-g / --genesis-msg):
    $ datum -c new_era.json -g "Launched on Dec 24, 2025" info
-> Embeds this text permanently in Block #0.
+   > Embeds this text permanently in Block #0.
 
 D. Flexible Arguments (Flags anywhere):
    $ datum balance -c my_chain.json -a chuck
@@ -412,9 +560,24 @@ D. Flexible Arguments (Flags anywhere):
     parser_wallet = subparsers.add_parser(
         'wallet', help='Manage cryptographic wallets', formatter_class=RichHelpFormatter
     )
-    parser_wallet.add_argument('action', choices=['create', 'list', 'show'], help='Wallet action')
+    parser_wallet.add_argument('action', choices=['create', 'list', 'show', 'export'], help='Wallet action')
     parser_wallet.add_argument('name', nargs='?', help='Wallet name (for create/show)')
+    parser_wallet.add_argument('--public', action='store_true', help='Export public key only')
     parser_wallet.set_defaults(func=cmd_wallet)
+
+    # MESSAGE
+    parser_message = subparsers.add_parser(
+        'message', help='Secure messaging (Dead Drop)', formatter_class=RichHelpFormatter
+    )
+    parser_message.add_argument('action', choices=['send', 'read'], help='send or read')
+    # Send args
+    parser_message.add_argument('--to-key', type=str, help='Path to recipient public key file')
+    parser_message.add_argument('--msg', type=str, help='Message content')
+    parser_message.add_argument('--sign-with', type=str, help='Sign with this wallet')
+    # Read args
+    parser_message.add_argument('--hash', type=str, help='Transaction hash (file_hash)')
+    parser_message.add_argument('--wallet', type=str, help='Decrypt with this wallet name')
+    parser_message.set_defaults(func=cmd_message)
 
     # NOTARIZE
     parser_notarize = subparsers.add_parser(
@@ -425,6 +588,7 @@ D. Flexible Arguments (Flags anywhere):
     parser_notarize.add_argument('-o', '--owner', type=str, required=True, help='The name of the file owner')
     parser_notarize.add_argument('-f', '--file', type=str, required=True, help='Path to the file to notarize')
     parser_notarize.add_argument('--sign-with', type=str, help='Name of wallet to sign the transaction with')
+    parser_notarize.add_argument('--encrypt-for', type=str, help='Path to recipient public key file (encrypt content)')
     parser_notarize.set_defaults(func=cmd_notarize)
 
     # MINE
@@ -476,6 +640,8 @@ D. Flexible Arguments (Flags anywhere):
     )
     parser_verify.add_argument('-h', '--help', action='help', help='Show this help message and exit')
     parser_verify.add_argument('-f', '--file', type=str, required=True, help='Path to the file to verify')
+    parser_verify.add_argument('--decrypt-with', type=str, help='Wallet name to decrypt the payload')
+    parser_verify.add_argument('--output', type=str, help='Path to save decrypted content')
     parser_verify.set_defaults(func=cmd_verify)
 
     # DEMO
