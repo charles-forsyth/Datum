@@ -228,7 +228,60 @@ class RichHelpFormatter(argparse.RawTextHelpFormatter):
         return ", ".join(action.option_strings)
 
 def main():
-    help_text = "Detailed help in README"
+    help_text = """
+--------------------------------------------------------------------------------
+🔎 EXAMPLES & WORKFLOWS
+--------------------------------------------------------------------------------
+
+1. Start by checking the system info:
+   $ datum info
+
+2. Notarize a critical document (Proof of Existence):
+   $ datum notarize -o "Dr. Vance" -f ./research_data.pdf
+   > This adds the file's hash to the "mempool" (pending transactions).
+
+3. Confirm the transaction by mining a block:
+   $ datum mine -m "Lab_Workstation_1"
+   > This performs the Proof-of-Work and permanently saves the transaction.
+
+4. Verify the document later (Integrity Check):
+   $ datum verify -f ./research_data.pdf
+   > Datum will calculate the hash and search the ledger for a match.
+
+5. Check your Mining Rewards:
+   $ datum balance -a "Lab_Workstation_1"
+
+6. Transfer funds (Pay for Compute):
+   $ datum transfer -f "Lab_Workstation_1" -t "HPC_Scheduler" --amount 50
+
+7. Run Demos:
+   $ datum demo hpc
+   $ datum demo spy
+   $ datum demo bazaar
+
+--------------------------------------------------------------------------------
+🚀 ADVANCED: MULTI-CHAIN MANAGEMENT
+--------------------------------------------------------------------------------
+
+Datum supports managing multiple isolated blockchains.
+
+A. Create/Load a specific chain (-c / --chain):
+   $ datum -c project_x.json info
+   > This creates 'project_x.json' in the current directory if it doesn't exist.
+
+B. Use a custom currency name (-n / --coin-name):
+   $ datum -c game_economy.json -n "GoldCoins" balance -a "Player1"
+   > Displays: Balance: 0.0 GoldCoins
+
+C. Initialize with a Custom Genesis Message (-g / --genesis-msg):
+   $ datum -c new_era.json -g "Launched on Dec 24, 2025" info
+   > Embeds this text permanently in Block #0.
+
+D. Flexible Arguments (Flags anywhere):
+   $ datum balance -c my_chain.json -a chuck
+   $ datum -c my_chain.json balance -a chuck
+--------------------------------------------------------------------------------
+"""
 
     # Parent parser for SUBCOMMANDS (Standard flags)
     # 'add_help=False' prevents conflict with main parser's -h/--help

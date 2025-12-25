@@ -11,4 +11,5 @@ def test_cli_help(capsys, monkeypatch):
         main()
     captured = capsys.readouterr()
     assert "Datum: Professional Blockchain & Data Integrity Tool" in captured.out
-    assert "Detailed help in README" in captured.out
+    assert "🔎 EXAMPLES & WORKFLOWS" in captured.out
+    assert "🚀 ADVANCED: MULTI-CHAIN MANAGEMENT" in captured.out
