@@ -18,6 +18,9 @@ console = Console()
 def setup_spy_chain(chain_file: str):
     """Initializes the secure comms channel."""
     bc = Blockchain(chain_file=chain_file)
+    # FORCE LOW DIFFICULTY
+    bc.difficulty = 1
+
     # Ensure chain exists and has genesis
     if not bc.chain:
         bc.create_genesis_block()
@@ -72,32 +75,37 @@ def run_simulation_sequence(bc, state, live, update_ui_func, agent_fox):
 
     # Phase 1: Establish Connection
     state["fox_status"] = "Handshaking..."
-    time.sleep(1)
+    log_ledger("[dim]Initiating handshake protocol...[/dim]")
+    time.sleep(1.5)
+
     state["crow_status"] = "Authenticating..."
-    time.sleep(1)
+    time.sleep(1.5)
+
     state["fox_status"] = "Secure Tunnel Established"
     state["crow_status"] = "Waiting for Payload"
     live.update(update_ui_func())
-    time.sleep(1)
+    time.sleep(1.5)
 
     # Phase 2: Fox Prepares Data
     state["phase"] = "ENCRYPTING"
     state["fox_status"] = "Encrypting Payload..."
+    log_ledger("Preparing secure package...")
 
     secret_data = "BLUEPRINT_OMEGA_V2"
     # Simulate processing time
     for i in range(1, 4):
         state["fox_status"] = f"Encrypting Payload... {i*33}%%"
-        time.sleep(0.5)
+        time.sleep(0.8)
         live.update(update_ui_func())
 
     encrypted_hash = hashlib.sha256(secret_data.encode()).hexdigest()
     state["fox_status"] = "Payload Encrypted."
-    time.sleep(1)
+    time.sleep(1.5)
 
     # Phase 3: The Drop (Notarize)
     state["phase"] = "UPLOADING"
     state["fox_status"] = "Notarizing to Chain..."
+    log_ledger(f"Fox is dropping package hash: {encrypted_hash[:8]}...")
 
     tx = Transaction(
         type="notarization",
@@ -108,12 +116,12 @@ def run_simulation_sequence(bc, state, live, update_ui_func, agent_fox):
     bc.add_transaction(tx)
     bc.save_chain()
     log_ledger(f"[yellow]PENDING:[/yellow] Notarization from {agent_fox}")
-    time.sleep(1)
+    time.sleep(2.0)
 
     # Phase 4: Mining (The Wait)
     state["alert_level"] = "ELEVATED"
     log_ledger("[bold red]! NETWORK SPIKE DETECTED ![/bold red]")
-    time.sleep(1)
+    time.sleep(1.5)
 
     state["fox_status"] = "Waiting for Confirmation..."
     state["crow_status"] = "Scanning Mempool..."
@@ -121,19 +129,20 @@ def run_simulation_sequence(bc, state, live, update_ui_func, agent_fox):
     # Dramatic mining pause
     for _ in range(3):
         log_ledger("[dim]Mining block... hashing...[/dim]")
-        time.sleep(0.8)
+        time.sleep(1.0)
         live.update(update_ui_func())
 
     bc.mine_pending_transactions("Network_Node_01")
     last_block = bc.get_latest_block()
     log_ledger(f"[bold green]BLOCK #{last_block.index} MINED[/bold green] | Hash: {last_block.hash[:10]}...")
     state["alert_level"] = "LOW"
-    time.sleep(1)
+    time.sleep(2.0)
 
     # Phase 5: Verification
     state["phase"] = "VERIFYING"
     state["crow_status"] = "Block Received. Verifying..."
-    time.sleep(1)
+    log_ledger("Crow is verifying integrity...")
+    time.sleep(2.0)
 
     # Crow "finds" the transaction
     block, found_tx = bc.find_transaction_by_file_hash(encrypted_hash)
@@ -141,16 +150,16 @@ def run_simulation_sequence(bc, state, live, update_ui_func, agent_fox):
     if found_tx:
         state["crow_status"] = "Target Acquired."
         state["messages"].append("[green]Hash Match Confirmed[/green]")
-        time.sleep(0.5)
+        time.sleep(1.0)
         state["messages"].append(f"Owner: {found_tx.owner}")
-        time.sleep(0.5)
+        time.sleep(1.0)
         state["messages"].append("Decrypting...")
-        time.sleep(1)
+        time.sleep(1.5)
         state["messages"].append(f"[bold white]SECRET: {secret_data}[/bold white]")
         state["fox_status"] = "Mission Complete. Disconnecting."
 
     live.update(update_ui_func())
-    time.sleep(3)
+    time.sleep(4)
 
 def run_spy_demo():
     """Runs the cinematic Spy vs. Spy demo."""

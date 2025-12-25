@@ -56,6 +56,39 @@
             "previous_hash": "26089c65460dc5468b9c038175fd3827d4946f8c4b9b80bf594d74b6f8aebb5a",
             "nonce": 13270,
             "hash": "0000c44399401f3853f483a2cd2a61cc930b45013ac44e29c65efcf800b32da3"
+        },
+        {
+            "index": 2,
+            "timestamp": 1766629552.4467537,
+            "transactions": [
+                {
+                    "type": "notarization",
+                    "sender": null,
+                    "recipient": null,
+                    "amount": 0.0,
+                    "timestamp": 1766629548.044814,
+                    "owner": "Agent_Fox",
+                    "file_hash": "2d01ca481c2c4bf2e388ee9bb5776e8d6a8919b3d7dbcfe292b12e2f9f8eab6c",
+                    "filename": "drop_package.enc",
+                    "message": null,
+                    "provenance": null
+                },
+                {
+                    "type": "reward",
+                    "sender": null,
+                    "recipient": "Network_Node_01",
+                    "amount": 250.0,
+                    "timestamp": 1766629552.4467032,
+                    "owner": null,
+                    "file_hash": null,
+                    "filename": null,
+                    "message": null,
+                    "provenance": null
+                }
+            ],
+            "previous_hash": "0000c44399401f3853f483a2cd2a61cc930b45013ac44e29c65efcf800b32da3",
+            "nonce": 396202,
+            "hash": "000009a7982eb62b1af8a29937360d3f2cab42e4f54bf192e5d9686f996f5570"
         }
     ],
     "pending_transactions": []
