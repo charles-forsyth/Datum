@@ -247,6 +247,7 @@ Amount: {args.amount} {args.coin_name}""", title="Transfer Queued", border_style
     console.print("[yellow]Run 'datum mine' to process this transfer.[/yellow]")
 
 def cmd_message_send(args):
+    args = resolve_args(args)
     # Encrypt text as a "notarization" payload
     if not args.to_key or not args.msg:
         console.print("[red]--to-key and --msg are required for sending.[/red]")
@@ -291,6 +292,7 @@ def cmd_message_send(args):
         console.print(f"[red]Failed to encrypt/send: {e}[/red]")
 
 def cmd_message_read(args):
+    args = resolve_args(args)
     # Decrypt a payload by hash or transaction ID logic
     if not args.hash or not args.wallet:
         console.print("[red]--hash and --wallet are required to read.[/red]")
