@@ -24,6 +24,18 @@ class Transaction(BaseModel):
     message: Optional[str] = None
     provenance: Optional[Provenance] = None
 
+    # Crypto Identity
+    signature: Optional[str] = None
+    public_key: Optional[str] = None
+
+    def calculate_data_hash(self) -> str:
+        """Calculates hash of transaction data for signing (excludes signature/pubkey)."""
+        import hashlib
+        import json
+        # Dump data excluding signature fields to create a stable hash for signing
+        data = self.model_dump(exclude={'signature', 'public_key'})
+        return hashlib.sha256(json.dumps(data, sort_keys=True).encode()).hexdigest()
+
 class Block(BaseModel):
     index: int
     timestamp: float
