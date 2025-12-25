@@ -139,7 +139,6 @@ From: {args.sender}
 To: {args.recipient}
 Amount: {args.amount} {args.coin_name}""", title="Transfer Queued", border_style="green"))
     console.print("[yellow]Run 'datum mine' to process this transfer.[/yellow]")
-
 def cmd_show(args):
     """Show the blockchain."""
     args = resolve_args(args)
@@ -193,6 +192,7 @@ def cmd_verify(args):
     file_hash = hash_file(str(file_path))
     bc = get_blockchain(args.chain, args.genesis_msg)
 
+    # 1. Exact Match Check
     result = bc.find_transaction_by_file_hash(file_hash)
     if result:
         block, tx = result
@@ -203,11 +203,33 @@ Block: #{block.index}
 Date: {tx.timestamp}
 Hash: {tx.file_hash}""", title="Verification Result", border_style="green"))
     else:
-        console.print(Panel(
-            f"[red]❌ File not found in blockchain.[/red]\nHash: {file_hash}",
-            title="Verification Failed",
-            border_style="red"
-        ))
+        # 2. History Check (Audit Trail)
+        history = bc.find_transactions_by_filename(file_path.name)
+        if history:
+            console.print(Panel(
+                f"[yellow]⚠️  Current hash not found, but file history exists![/yellow]\n"
+                f"Current Hash: {file_hash}\n\n"
+                f"[bold]📜 Audit Trail for '{file_path.name}':[/bold]",
+                title="Verification Failed - Modified File Detected",
+                border_style="yellow"
+            ))
+
+            table = Table(box=None)
+            table.add_column("Block", style="cyan")
+            table.add_column("Date", style="magenta")
+            table.add_column("Owner", style="white")
+            table.add_column("Hash", style="dim")
+
+            for block, tx in history:
+                table.add_row(str(block.index), str(tx.timestamp), tx.owner, tx.file_hash[:10] + "...")
+
+            console.print(table)
+        else:
+            console.print(Panel(
+                f"[red]❌ File not found in blockchain.[/red]\nHash: {file_hash}",
+                title="Verification Failed",
+                border_style="red"
+            ))
 
 def cmd_demo(args):
     """Run an interactive demo."""
@@ -282,7 +304,6 @@ D. Flexible Arguments (Flags anywhere):
    $ datum -c my_chain.json balance -a chuck
 --------------------------------------------------------------------------------
 """
-
     # Parent parser for SUBCOMMANDS (Standard flags)
     # 'add_help=False' prevents conflict with main parser's -h/--help
     parent_parser = argparse.ArgumentParser(add_help=False)
@@ -299,6 +320,7 @@ D. Flexible Arguments (Flags anywhere):
         prog="datum",
         description="Datum: Professional Blockchain & Data Integrity Tool",
         formatter_class=RichHelpFormatter,
+        # parents=[parent_parser], # DO NOT inherit here to avoid destination conflict
         add_help=False,
         epilog=help_text
     )
@@ -323,6 +345,7 @@ D. Flexible Arguments (Flags anywhere):
         'info', help='Display configuration and status', formatter_class=RichHelpFormatter,
         parents=[parent_parser], add_help=False
     )
+    # Manually add help for subcommands to ensure it shows up in their -h output
     parser_info.add_argument('-h', '--help', action='help', help='Show this help message and exit')
     parser_info.set_defaults(func=cmd_info)
 
